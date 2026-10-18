@@ -1,3 +1,7 @@
+package br.ufv.ccf313.projeto.test;
+
+import br.ufv.ccf313.projeto.model.RegistroRanking;
+import br.ufv.ccf313.projeto.service.GerenciadorRanking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;

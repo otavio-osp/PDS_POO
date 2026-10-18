@@ -1,3 +1,6 @@
+package br.ufv.ccf313.projeto.service;
+
+import br.ufv.ccf313.projeto.model.RegistroRanking;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

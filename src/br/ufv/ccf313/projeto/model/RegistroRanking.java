@@ -1,3 +1,5 @@
+package br.ufv.ccf313.projeto.model;
+
 public class RegistroRanking implements Comparable<RegistroRanking> {
     private String nomeJogador;
     private int pontuacaoTotal;
