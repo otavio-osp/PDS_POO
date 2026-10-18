@@ -1,0 +1,477 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="diagrama-1" name="1 - Combate">
+    <mxGraphModel dx="1200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1450" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titulo" value="1 - Subsistema de combate" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=24;fontStyle=1;fontColor=#174B52;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="20" width="1000" height="40" />
+        </mxCell>
+        <mxCell id="introducao" value="Classes implementadas e planejadas para o subsistema de combate." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="65" width="1000" height="55" />
+        </mxCell>
+        <mxCell id="classe-0" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="390.0" y="140.0" width="310.0" height="210.0" />
+        </mxCell>
+        <mxCell id="classe-0-nome" value="Entidade (abstrata)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-0-atributos" value="- posX, posY: int&#10;- ativa: boolean" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="60.0" />
+        </mxCell>
+        <mxCell id="classe-0-metodos" value="+ atualizar()&#10;+ desativar()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="102.0" width="310.0" height="108.0" />
+        </mxCell>
+        <mxCell id="classe-1" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740.0" y="140.0" width="310.0" height="210.0" />
+        </mxCell>
+        <mxCell id="classe-1-nome" value="Projetil" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-1-atributos" value="- velocidade: double&#10;- dano: int; tipo: String&#10;- alvo: InimigoLixo" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="82.0" />
+        </mxCell>
+        <mxCell id="classe-1-metodos" value="+ atualizar()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="124.0" width="310.0" height="86.0" />
+        </mxCell>
+        <mxCell id="classe-2" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50.0" y="440.0" width="310.0" height="220.0" />
+        </mxCell>
+        <mxCell id="classe-2-nome" value="TorreTartaruga (abstrata)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-2">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-2-atributos" value="- custo, dano: int&#10;- alcance: double&#10;- projetisAtivos: List&lt;Projetil&gt;" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-2">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="82.0" />
+        </mxCell>
+        <mxCell id="classe-2-metodos" value="+ atacar(InimigoLixo)&#10;+ atualizar()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-2">
+          <mxGeometry as="geometry" x="0" y="124.0" width="310.0" height="96.0" />
+        </mxCell>
+        <mxCell id="classe-3" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740.0" y="440.0" width="310.0" height="220.0" />
+        </mxCell>
+        <mxCell id="classe-3-nome" value="InimigoLixo (abstrata)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-3-atributos" value="- vidaMaxima, vidaAtual: int&#10;- velocidade: double&#10;- recompensa: int" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="82.0" />
+        </mxCell>
+        <mxCell id="classe-3-metodos" value="+ receberDano(int)&#10;+ estaDestruido(): boolean" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="124.0" width="310.0" height="96.0" />
+        </mxCell>
+        <mxCell id="classe-4" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50.0" y="740.0" width="310.0" height="130.0" />
+        </mxCell>
+        <mxCell id="classe-4-nome" value="TartarugaVerde (planejada)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-4">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-4-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-4">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-4-metodos" value="+ atacar(InimigoLixo)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-4">
+          <mxGeometry as="geometry" x="0" y="58.0" width="310.0" height="72.0" />
+        </mxCell>
+        <mxCell id="classe-5" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50.0" y="920.0" width="310.0" height="130.0" />
+        </mxCell>
+        <mxCell id="classe-5-nome" value="TartarugaDeCouro" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-5">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-5-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-5">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-5-metodos" value="+ atacar(InimigoLixo)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-5">
+          <mxGeometry as="geometry" x="0" y="58.0" width="310.0" height="72.0" />
+        </mxCell>
+        <mxCell id="classe-6" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50.0" y="1100.0" width="310.0" height="130.0" />
+        </mxCell>
+        <mxCell id="classe-6-nome" value="TartarugaDePente" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-6">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-6-atributos" value="- contadorAtaques: int" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-6">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="38.0" />
+        </mxCell>
+        <mxCell id="classe-6-metodos" value="+ atacar(InimigoLixo)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-6">
+          <mxGeometry as="geometry" x="0" y="80.0" width="310.0" height="50.0" />
+        </mxCell>
+        <mxCell id="classe-7" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740.0" y="740.0" width="310.0" height="130.0" />
+        </mxCell>
+        <mxCell id="classe-7-nome" value="GarrafaPet (planejada)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-7">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-7-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-7">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-7-metodos" value="+ atualizar()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-7">
+          <mxGeometry as="geometry" x="0" y="58.0" width="310.0" height="72.0" />
+        </mxCell>
+        <mxCell id="classe-8" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740.0" y="920.0" width="310.0" height="130.0" />
+        </mxCell>
+        <mxCell id="classe-8-nome" value="RedeFantasma (planejada)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-8">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-8-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-8">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-8-metodos" value="+ atualizar()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-8">
+          <mxGeometry as="geometry" x="0" y="58.0" width="310.0" height="72.0" />
+        </mxCell>
+        <mxCell id="classe-9" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740.0" y="1100.0" width="310.0" height="130.0" />
+        </mxCell>
+        <mxCell id="classe-9-nome" value="Microplastico (planejado)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-9">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-9-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-9">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-9-metodos" value="+ atualizar()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-9">
+          <mxGeometry as="geometry" x="0" y="58.0" width="310.0" height="72.0" />
+        </mxCell>
+        <mxCell id="relacao-0" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=0.4967741935483871;exitY=0.0;exitDx=0;exitDy=0;entryX=0.25806451612903225;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-2" target="classe-0">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="204.0" y="390.0" />
+              <mxPoint x="470.0" y="390.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-1" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=0.4967741935483871;exitY=0.0;exitDx=0;exitDy=0;entryX=0.7419354838709677;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-3" target="classe-0">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="894.0" y="390.0" />
+              <mxPoint x="620.0" y="390.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-2" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=0.0;exitY=0.42857142857142855;exitDx=0;exitDy=0;entryX=1.0;entryY=0.42857142857142855;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-1" target="classe-0">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="relacao-3" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=1.0;exitY=0.49230769230769234;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-4" target="classe-2">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="410.0" y="804.0" />
+              <mxPoint x="410.0" y="700.0" />
+              <mxPoint x="204.0" y="700.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-4" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=0.0;exitY=0.49230769230769234;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-7" target="classe-3">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="690.0" y="804.0" />
+              <mxPoint x="690.0" y="700.0" />
+              <mxPoint x="894.0" y="700.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-5" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=1.0;exitY=0.49230769230769234;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-5" target="classe-2">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="410.0" y="984.0" />
+              <mxPoint x="410.0" y="700.0" />
+              <mxPoint x="204.0" y="700.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-6" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=0.0;exitY=0.49230769230769234;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-8" target="classe-3">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="690.0" y="984.0" />
+              <mxPoint x="690.0" y="700.0" />
+              <mxPoint x="894.0" y="700.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-7" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=1.0;exitY=0.49230769230769234;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-6" target="classe-2">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="410.0" y="1164.0" />
+              <mxPoint x="410.0" y="700.0" />
+              <mxPoint x="204.0" y="700.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-8" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;endArrow=block;endFill=0;endSize=12;exitX=0.0;exitY=0.49230769230769234;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-9" target="classe-3">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="690.0" y="1164.0" />
+              <mxPoint x="690.0" y="700.0" />
+              <mxPoint x="894.0" y="700.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legenda" value="Triângulo vazio: herança. - privado; + público.&#10;Uma torre mantém 0..* projéteis; cada projétil possui um inimigo como alvo.&#10;Vida fica em InimigoLixo; Entidade guarda posição e estado ativo." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="1265.0" width="1000" height="100" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diagrama-2" name="2 - Ciclo de jogo e interface">
+    <mxGraphModel dx="1200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1450" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titulo" value="2 - Ciclo de jogo e interface" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=24;fontStyle=1;fontColor=#174B52;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="20" width="1000" height="40" />
+        </mxCell>
+        <mxCell id="introducao" value="Classes planejadas. A camada de apresentação é flexível (terminal ou gráfica); o GameController intermedeia as ações do usuário e as regras da partida." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="65" width="1000" height="55" />
+        </mxCell>
+        <mxCell id="classe-0" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="140.0" y="140.0" width="360.0" height="150.0" />
+        </mxCell>
+        <mxCell id="classe-0-nome" value="InterfaceMenu / Ranking" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="0" width="360.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-0-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="42" width="360.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-0-metodos" value="+ exibirMenu()&#10;+ exibirRanking()&#10;+ lerOpcaoUsuario()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="58.0" width="360.0" height="92.0" />
+        </mxCell>
+        <mxCell id="classe-1" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="600.0" y="140.0" width="360.0" height="150.0" />
+        </mxCell>
+        <mxCell id="classe-1-nome" value="InterfaceJogo (Terminal / GUI)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="0" width="360.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-1-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="42" width="360.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-1-metodos" value="+ renderizarEstado()&#10;+ capturarAcaoJogador()&#10;+ notificarMensagem(String)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="58.0" width="360.0" height="92.0" />
+        </mxCell>
+        <mxCell id="classe-3" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="395.0" y="370.0" width="310.0" height="210.0" />
+        </mxCell>
+        <mxCell id="classe-3-nome" value="GameController" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-3-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-3-metodos" value="+ novaPartida()&#10;+ comprarTorre(tipo, col, lin)&#10;+ processarCiclo()&#10;+ pausarPartida()&#10;+ finalizarPartida()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="58.0" width="310.0" height="152.0" />
+        </mxCell>
+        <mxCell id="classe-4" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50.0" y="660.0" width="310.0" height="190.0" />
+        </mxCell>
+        <mxCell id="classe-4-nome" value="LojaService" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-4">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-4-atributos" value="- jogador: Jogador&#10;- mapa: Mapa" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-4">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="60.0" />
+        </mxCell>
+        <mxCell id="classe-4-metodos" value="+ comprar(tipo, col, lin)&#10;+ validarSaldo(custo)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-4">
+          <mxGeometry as="geometry" x="0" y="102.0" width="310.0" height="88.0" />
+        </mxCell>
+        <mxCell id="classe-5" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="395.0" y="660.0" width="310.0" height="190.0" />
+        </mxCell>
+        <mxCell id="classe-5-nome" value="GameLoop" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-5">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-5-atributos" value="- emExecucao: boolean&#10;- inimigos: List&lt;InimigoLixo&gt;" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-5">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="60.0" />
+        </mxCell>
+        <mxCell id="classe-5-metodos" value="+ atualizar()&#10;+ pausar(); retomar()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-5">
+          <mxGeometry as="geometry" x="0" y="102.0" width="310.0" height="88.0" />
+        </mxCell>
+        <mxCell id="classe-6" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740.0" y="660.0" width="310.0" height="190.0" />
+        </mxCell>
+        <mxCell id="classe-6-nome" value="WaveService" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-6">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-6-atributos" value="- numeroOnda: int" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-6">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="38.0" />
+        </mxCell>
+        <mxCell id="classe-6-metodos" value="+ iniciarOnda(int)&#10;+ proximoInimigo()" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-6">
+          <mxGeometry as="geometry" x="0" y="80.0" width="310.0" height="110.0" />
+        </mxCell>
+        <mxCell id="classe-7" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50.0" y="980.0" width="310.0" height="190.0" />
+        </mxCell>
+        <mxCell id="classe-7-nome" value="Jogador" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-7">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-7-atributos" value="- nome: String&#10;- moedas, vida, pontos: int" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-7">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="60.0" />
+        </mxCell>
+        <mxCell id="classe-7-metodos" value="+ gastar(int); ganhar(int)&#10;+ perderVida(int)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-7">
+          <mxGeometry as="geometry" x="0" y="102.0" width="310.0" height="88.0" />
+        </mxCell>
+        <mxCell id="classe-8" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="395.0" y="980.0" width="310.0" height="190.0" />
+        </mxCell>
+        <mxCell id="classe-8-nome" value="Mapa" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-8">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-8-atributos" value="- caminho: List&lt;Coordenada&gt;&#10;- torres: List&lt;TorreTartaruga&gt;" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-8">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="60.0" />
+        </mxCell>
+        <mxCell id="classe-8-metodos" value="+ podeConstruir(col, lin)&#10;+ adicionarTorre(torre)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-8">
+          <mxGeometry as="geometry" x="0" y="102.0" width="310.0" height="88.0" />
+        </mxCell>
+        <mxCell id="classe-9" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="740.0" y="980.0" width="310.0" height="190.0" />
+        </mxCell>
+        <mxCell id="classe-9-nome" value="Exceções de Domínio" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-9">
+          <mxGeometry as="geometry" x="0" y="0" width="310.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-9-atributos" value="" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-9">
+          <mxGeometry as="geometry" x="0" y="42" width="310.0" height="16.0" />
+        </mxCell>
+        <mxCell id="classe-9-metodos" value="PosicaoInvalidaException&#10;RecursosInsuficientesException&#10;(estendem Exception)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-9">
+          <mxGeometry as="geometry" x="0" y="58.0" width="310.0" height="132.0" />
+        </mxCell>
+        <mxCell id="relacao-0" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;dashed=1;endArrow=open;endSize=9;exitX=0.5;exitY=1.0;exitDx=0;exitDy=0;entryX=0.25;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-0" target="classe-3">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="320.0" y="330.0" />
+              <mxPoint x="472.0" y="330.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-1" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;dashed=1;endArrow=open;endSize=9;exitX=0.5;exitY=1.0;exitDx=0;exitDy=0;entryX=0.75;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-1" target="classe-3">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="780.0" y="330.0" />
+              <mxPoint x="628.0" y="330.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-3" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;dashed=1;endArrow=open;endSize=9;exitX=0.18064516129032257;exitY=1.0;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-3" target="classe-4">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="451.0" y="610.0" />
+              <mxPoint x="205.0" y="610.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-4" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;dashed=1;endArrow=open;endSize=9;exitX=0.4967741935483871;exitY=1.0;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-3" target="classe-5">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="relacao-5" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;exitX=1.0;exitY=0.42105263157894735;exitDx=0;exitDy=0;entryX=0.0;entryY=0.42105263157894735;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-5" target="classe-6">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="relacao-6" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;exitX=0.4967741935483871;exitY=1.0;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-4" target="classe-7">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="relacao-7" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;exitX=1.0;exitY=0.5789473684210527;exitDx=0;exitDy=0;entryX=0.3741935483870968;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-4" target="classe-8">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="378.0" y="770.0" />
+              <mxPoint x="378.0" y="940.0" />
+              <mxPoint x="511.0" y="940.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relacao-8" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;exitX=0.4967741935483871;exitY=1.0;exitDx=0;exitDy=0;entryX=0.4967741935483871;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-5" target="classe-8">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="relacao-9" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;exitX=0.18064516129032257;exitY=1.0;exitDx=0;exitDy=0;entryX=0.6774193548387096;entryY=0.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-5" target="classe-7">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="451.0" y="900.0" />
+              <mxPoint x="260.0" y="900.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="multiplicidade-0" value="1" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="214.0" y="908.0" width="320" height="24" />
+        </mxCell>
+        <mxCell id="multiplicidade-1" value="1" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="560.0" y="908.0" width="320" height="24" />
+        </mxCell>
+        <mxCell id="legenda" value="Seta tracejada: uso ou dependência. Linha simples: associação.&#10;Interface flexível para modo terminal ou gráfico. GameLoop gerencia estado associando-se a Jogador, Mapa e WaveService.&#10;LojaService valida saldo e posições antes de modificar o modelo." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="1205.0" width="1000" height="100" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diagrama-3" name="3 - Persistência de dados">
+    <mxGraphModel dx="1200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titulo" value="3 - Persistência de dados" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=24;fontStyle=1;fontColor=#174B52;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="20" width="1000" height="40" />
+        </mxCell>
+        <mxCell id="introducao" value="RegistroRanking e GerenciadorRanking operam em memória. GerenciadorPersistencia planejado para gravação e recuperação em arquivos de texto." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="65" width="1000" height="55" />
+        </mxCell>
+        <mxCell id="classe-0" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="140.0" y="160.0" width="360.0" height="210.0" />
+        </mxCell>
+        <mxCell id="classe-0-nome" value="GerenciadorRanking" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="0" width="360.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-0-atributos" value="- records: List&lt;RegistroRanking&gt;" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="42" width="360.0" height="48.0" />
+        </mxCell>
+        <mxCell id="classe-0-metodos" value="+ adicionarRegistro(nome, p, o)&#10;+ getTopRegistros(limite: int): List" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-0">
+          <mxGeometry as="geometry" x="0" y="90.0" width="360.0" height="120.0" />
+        </mxCell>
+        <mxCell id="classe-1" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="600.0" y="160.0" width="360.0" height="210.0" />
+        </mxCell>
+        <mxCell id="classe-1-nome" value="RegistroRanking" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="0" width="360.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-1-atributos" value="- nomeJogador: String&#10;- pontuacaoTotal: int&#10;- ondasSobrevividas: int" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="42" width="360.0" height="82.0" />
+        </mxCell>
+        <mxCell id="classe-1-metodos" value="+ compareTo(outro: RegistroRanking): int&#10;+ getPontuacaoTotal(): int&#10;+ getNomeJogador(): String" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-1">
+          <mxGeometry as="geometry" x="0" y="124.0" width="360.0" height="86.0" />
+        </mxCell>
+        <mxCell id="relacao-0" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-0" target="classe-1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="multiplicidade-0" value="1" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="510.0" y="240.0" width="30" height="24" />
+        </mxCell>
+        <mxCell id="multiplicidade-1" value="0..*" style="text;html=0;whiteSpace=wrap;align=right;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="555.0" y="240.0" width="35" height="24" />
+        </mxCell>
+        <mxCell id="classe-2" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="140.0" y="480.0" width="360.0" height="220.0" />
+        </mxCell>
+        <mxCell id="classe-2-nome" value="GerenciadorPersistencia (planejada)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-2">
+          <mxGeometry as="geometry" x="0" y="0" width="360.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-2-atributos" value="- caminhoRanking: String&#10;- caminhoPartida: String" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-2">
+          <mxGeometry as="geometry" x="0" y="42" width="360.0" height="60.0" />
+        </mxCell>
+        <mxCell id="classe-2-metodos" value="+ salvarRanking(List&lt;RegistroRanking&gt;)&#10;+ carregarRanking(): List&lt;RegistroRanking&gt;&#10;+ salvarPartida(DadosPartida)&#10;+ carregarPartida(): DadosPartida" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-2">
+          <mxGeometry as="geometry" x="0" y="102.0" width="360.0" height="118.0" />
+        </mxCell>
+        <mxCell id="classe-3" value="" style="group;perimeter=rectanglePerimeter;connectable=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="600.0" y="480.0" width="360.0" height="220.0" />
+        </mxCell>
+        <mxCell id="classe-3-nome" value="DadosPartida (planejada)" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#DDEBED;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="0" width="360.0" height="42" />
+        </mxCell>
+        <mxCell id="classe-3-atributos" value="- nomeJogador: String&#10;- ondaAtual, moedas, vida: int&#10;- torresAtivas: List&lt;String&gt;" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#F5F8F8;align=left;verticalAlign=top;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="42" width="360.0" height="82.0" />
+        </mxCell>
+        <mxCell id="classe-3-metodos" value="+ getOndaAtual(): int&#10;+ getTorresAtivas(): List&lt;String&gt;" style="rounded=0;whiteSpace=wrap;html=0;fontFamily=Helvetica;fontSize=14;strokeColor=#536A70;spacing=8;fillColor=#FFFFFF;align=left;verticalAlign=top;" vertex="1" parent="classe-3">
+          <mxGeometry as="geometry" x="0" y="124.0" width="360.0" height="96.0" />
+        </mxCell>
+        <mxCell id="relacao-1" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;dashed=1;endArrow=open;endSize=9;exitX=0.5;exitY=0.0;exitDx=0;exitDy=0;entryX=0.5;entryY=1.0;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-2" target="classe-0">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="relacao-2" style="rounded=0;html=0;strokeColor=#3C5157;strokeWidth=1.5;startArrow=none;endArrow=none;dashed=1;endArrow=open;endSize=9;exitX=1.0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="classe-2" target="classe-3">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="legenda" value="RegistroRanking implementa Comparable para ordenação decrescente por pontuação.&#10;GerenciadorPersistencia manipula arquivos de texto locais (como arquivos delimitados) para ranking e save game.&#10;Permite salvar e reconstruir posições de torres e recursos sem dependências externas." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="50" y="740.0" width="1000" height="90" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

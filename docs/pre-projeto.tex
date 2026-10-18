@@ -1,0 +1,432 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{lmodern}
+\usepackage{array,tabularx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\renewcommand{\arraystretch}{1.3}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{0.2cm}
+{\fontsize{40}{44}\selectfont\sffamily U\textcolor[HTML]{861D23}{F}\textcolor[HTML]{C9A733}{V}\par}
+\vspace{0.2cm}
+{\small SERVIÇO PÚBLICO FEDERAL - MINISTÉRIO DA EDUCAÇÃO\par}
+\vspace{0.15cm}
+{\small UNIVERSIDADE FEDERAL DE VIÇOSA - UFV\par}
+\vspace{0.15cm}
+{\small CAMPUS FLORESTAL\par}
+\vspace{5.0cm}
+{\Large\bfseries Trabalho Prático - POO\par}
+\vspace{0.4cm}
+{\large\bfseries Tartarugas vs. Lixo Marinho\par}
+\vspace{0.2cm}
+{\normalsize Relatório Técnico - Primeira Entrega\par}
+\vspace{2.7cm}
+\begin{flushright}
+Lethícia Gonçalves da Silva - 6571\\[3pt]
+Marina Larissa Xavier Soares - 6581\\[3pt]
+Tomás Viana Resende - 6556\\[3pt]
+Caroline Melo Silva - 6595\\[3pt]
+Otávio Soares Pedroso - 6593\\[3pt]
+Pedro Mendes Gonzaga - 6563\\[3pt]
+Bruna\\[3pt]
+Helena
+\end{flushright}
+\vfill
+Florestal - MG\\[5pt]
+2026
+\end{titlepage}
+
+\clearpage
+\section*{1. Proposta do Jogo}
+O projeto \textit{Tartarugas vs. Lixo Marinho} constitui um jogo eletrônico do gênero \textit{Tower Defense} bidimensional desenvolvido na linguagem Java para a disciplina CCF313 -- Programação Orientada a Objetos da Universidade Federal de Viçosa (UFV), \textit{Campus} Florestal. A proposta combina conceitos centrais da orientação a objetos com uma temática de conscientização sobre o descarte inadequado de resíduos sólidos em ecossistemas costeiros, ambientando a dinâmica de defesa em uma praia onde espécies de tartarugas marinhas atuam como defensores para impedir o avanço de dejetos antrópicos em direção ao oceano.
+
+\subsection*{Objetivo e Escopo}
+O objetivo da partida consiste em defender a costa litorânea ao longo de dez ondas consecutivas de resíduos que percorrem um trajeto pré-fixado. O jogador inicia a partida com 100 conchas (unidade monetária do jogo) e 20 pontos de integridade da praia. A cada dejeto neutralizado pelo ataque das tartarugas, conchas e pontos para o ranking são concedidos ao jogador. Caso a integridade da praia seja reduzida a zero pelo avanço dos resíduos, a partida encerra-se em derrota; a sobrevivência ao término da última onda caracteriza a vitória do jogador.
+
+O escopo do sistema abrange três espécies de tartarugas com comportamentos de combate distintos e três tipos de resíduos com diferentes atributos de deslocamento e resistência. O sistema contempla mecanismos de aquisição e posicionamento de torres, controle de fluxo da partida (início de onda e pausa), e registro de melhores pontuações em memória. Prevê-se a adoção de um mecanismo simplificado de persistência em arquivos de texto em etapa subsequente. O escopo delimita-se a uma aplicação local autônoma, sem necessidade de banco de dados externo ou conexão de rede.
+
+\subsection*{Estratégia e Metodologia de Desenvolvimento}
+Adotou-se uma metodologia de desenvolvimento modular e incremental orientada a objetos. Nesta etapa inicial, o foco do trabalho consistiu na modelagem e construção do núcleo de domínio da aplicação, priorizando a hierarquia estrutural de combate (entidades, torres de defesa, projéteis e dejetos marinhos) e o subsistema de pontuação e ordenação de ranking em memória.
+
+Essa estratégia foi definida com o intuito de isolar as regras de negócio centrais e a mecânica balística de camadas periféricas, tais como interfaces de usuário e componentes de persistência física em disco. A separação clara de responsabilidades proporciona baixo acoplamento e alta coesão, viabilizando a validação independente das operações fundamentais por meio de testes unitários automatizados antes da integração com o ciclo de execução contínua (\textit{GameLoop}) e com os módulos de entrada e saída.
+
+\subsection*{Escopo e Status da Primeira Etapa}
+A primeira etapa do projeto consolida a infraestrutura conceitual, a modelagem em diagramas de classes e a implementação do núcleo funcional básico do sistema. A Tabela~\ref{tab:status} apresenta a distribuição estruturada entre os componentes já implementados e aqueles projetados para as fases seguintes.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{0.27\textwidth}|p{0.25\textwidth}|p{0.41\textwidth}|}
+\hline
+\textbf{Subsistema} & \textbf{Componentes} & \textbf{Status e Descrição} \\
+\hline
+Hierarquia Base & \texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{InimigoLixo} & \textbf{Implementadas}. Classes abstratas que definem coordenadas, estado ativo, alcance e atributos de vida e dano. \\
+\hline
+Torres Especializadas & \texttt{TartarugaDeCouro}, \texttt{TartarugaDePente} & \textbf{Implementadas}. Subclasses concretas com parâmetros de ataque, cadência e mecânica de acertos críticos. \\
+\hline
+Torre Inicial & \texttt{TartarugaVerde} & \textbf{Planejada}. Subclasse de custo reduzido e ataque simples para o início da partida. \\
+\hline
+Sistema Balístico & \texttt{Projetil} & \textbf{Implementada}. Entidade responsável pela trajetória direcionada ao alvo e aplicação de dano. \\
+\hline
+Resíduos Concretos & \texttt{GarrafaPet}, \texttt{RedeFantasma}, \texttt{Microplastico} & \textbf{Planejados}. Subclasses de dejetos com perfis específicos de velocidade, resistência e recompensa. \\
+\hline
+Pontuação e Recordes & \texttt{RegistroRanking}, \texttt{GerenciadorRanking} & \textbf{Implementados}. Estrutura em memória com ordenação automática (\texttt{Comparable}) e testes unitários JUnit. \\
+\hline
+Fluxo e Execução & \texttt{GameLoop}, \texttt{GameController}, \texttt{WaveService} & \textbf{Planejados}. Mecanismos de orquestração temporal, progressão de ondas e mediação de comandos. \\
+\hline
+Interface e Interação & Camada de Apresentação (Terminal / GUI) & \textbf{Planejada}. Visualização do mapa e recepção de comandos do jogador via terminal ou interface gráfica. \\
+\hline
+Persistência de Dados & \texttt{GerenciadorPersistencia}, \texttt{DadosPartida} & \textbf{Planejados}. Gravação e recuperação simplificadas de recordes e estados de jogo em arquivos de texto. \\
+\hline
+\end{tabular}
+\caption{Quadro comparativo de componentes implementados e planejados.}
+\label{tab:status}
+\end{table}
+
+\clearpage
+\section*{2. Regras e Mecânicas de Jogo}
+\subsection*{Mapeamento e Dinâmica de Combate}
+O mapa da partida é estruturado sobre uma malha quadriculada bidimensional contendo 12 colunas e 8 linhas. Os resíduos movem-se ao longo de um trajeto fixo e contínuo, iniciando em $(0,3)$, estendendo-se linearmente até $(5,3)$, descendo para $(5,5)$ e prosseguindo horizontalmente até a extremidade $(11,5)$, onde atingem a praia. As células desocupadas que não pertencem ao trajeto estão disponíveis para a instalação de torres de tartaruga pelo jogador.
+
+A classe \texttt{Projetil} é responsável por intermediar os ataques das torres, deslocando-se em direção à posição do dejeto-alvo e aplicando a redução em sua integridade no momento do impacto. Cada dejeto neutralizado pelo combate concede conchas e pontos ao jogador de forma única. Caso um dejeto alcance o término do caminho sem ser destruído, ele é removido da partida, causando o decréscimo de um ponto de vida da praia sem conceder recompensa financeira. Uma onda é dada como concluída quando todos os inimigos previstos forem eliminados ou tiverem chegado ao fim do trajeto.
+
+\subsection*{Progressão e Escalonamento das Ondas}
+A progressão da partida fundamenta-se em um modelo dinâmico de escalonamento da dificuldade ao longo das dez ondas planejadas. A cada nova onda completada, incrementam-se de maneira gradual a quantidade total de resíduos gerados, os valores de vida efetiva das unidades e a sua velocidade de avanço pela malha. 
+
+Esse modelo progressivo proporciona uma curva de aprendizado equilibrada, estimulando o jogador a posicionar novas torres e aprimorar as defesas existentes para conter investidas mais densas e velozes. A calibração final dos parâmetros de avanço e geração temporal será conduzida empiricamente durante a integração do ciclo principal de jogo, garantindo estabilidade e fluidez à experiência de jogabilidade.
+
+{\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{|p{0.26\textwidth}|p{0.70\textwidth}|}\hline
+\textbf{Espécie de Tartaruga} & \textbf{Perfil Tático e Parâmetros Base}\\\hline
+Tartaruga de Couro & Custo 200 conchas; dano 60; alcance 4,0; cadência balanceada. Dispara projéteis de alto impacto direcionados a alvos prioritários de grande resistência.\\\hline
+Tartaruga de Pente & Custo 100 conchas; dano base 20; alcance 2,5; cadência rápida. Implementa mecânica de acerto crítico, duplicando o dano causado a cada quinto ataque consecutivo.\\\hline
+Tartaruga Verde & Custo planejado de 50 conchas; dano 10; alcance 2,0. Unidade defensiva básica de baixo custo, voltada para a contenção inicial nas primeiras ondas.\\\hline
+\end{tabular}}
+
+Os tipos de resíduos planejados compreendem a \texttt{GarrafaPet} (resistência intermediária e deslocamento moderado), a \texttt{RedeFantasma} (elevada resistência mecânica e velocidade reduzida) e o \texttt{Microplastico} (baixa resistência, porém velocidade acelerada de travessia). A proporção de cada tipo varia conforme a progressão da partida, demandando adaptação contínua da estratégia defensiva do jogador.
+
+\subsection*{Estados da Partida e Apuração de Resultados}
+O ciclo operacional da partida divide-se em quatro fases principais:
+\begin{enumerate}
+    \item \textbf{Preparação:} intervalo entre ondas em que o jogador analisa o tabuleiro e adquire novas torres de tartaruga com suas conchas disponíveis.
+    \item \textbf{Combate:} período em que os resíduos deslocam-se pelo trajeto e as torres realizam a detecção de alvos e o disparo de projéteis.
+    \item \textbf{Pausa:} suspensão temporária do avanço temporal, interrompendo movimentações e cálculos balísticos sem alteração do estado da partida.
+    \item \textbf{Encerramento:} finalização da sessão de jogo por vitória ou derrota, cálculo da bonificação de pontuação vinculada à vida restante da praia e oferta para inserção do registro no ranking.
+\end{enumerate}
+
+\clearpage
+\section*{3. Diagrama de Classes -- Subsistema de Combate}
+O diagrama a seguir sintetiza a arquitetura do subsistema de combate, evidenciando as relações de herança, abstração e associação entre as classes já implementadas na primeira etapa e as extensões planejadas para a conclusão do jogo. Construtores e métodos auxiliares foram omitidos para favorecer a clareza visual.
+
+\begin{center}\begin{tikzpicture}[x=0.98pt,y=-0.98pt,font=\scriptsize]
+\path[use as bounding box] (0,0) rectangle (500,550);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (77,150) -- (77,125) -- (210,125) -- (210,105);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (422,150) -- (422,125) -- (285,125) -- (285,105);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (345,45) -- (325,45);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (155,332) -- (180,332) -- (180,280) -- (77,280) -- (77,260);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (345,332) -- (320,332) -- (320,280) -- (422,280) -- (422,260);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (155,422) -- (180,422) -- (180,280) -- (77,280) -- (77,260);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (345,422) -- (320,422) -- (320,280) -- (422,280) -- (422,260);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (155,512) -- (180,512) -- (180,280) -- (77,280) -- (77,260);
+\draw[-{Triangle[open,length=8pt,width=7pt]}] (345,512) -- (320,512) -- (320,280) -- (422,280) -- (422,260);
+
+\draw[fill=gray!5] (170,0) rectangle (325,105);
+\node[anchor=north,inner sep=0pt] at (247.5,4) {\textbf{Entidade (abstrata)}};
+\draw (170,21) -- (325,21);
+\node[anchor=north west,inner sep=0pt] at (175,24) {- posX, posY: int};
+\node[anchor=north west,inner sep=0pt] at (175,35) {- ativa: boolean};
+\draw (170,51) -- (325,51);
+\node[anchor=north west,inner sep=0pt] at (175,57) {+ atualizar()};
+\node[anchor=north west,inner sep=0pt] at (175,68) {+ desativar()};
+
+\draw[fill=gray!5] (345,0) rectangle (500,105);
+\node[anchor=north,inner sep=0pt] at (422.5,4) {\textbf{Projetil}};
+\draw (345,21) -- (500,21);
+\node[anchor=north west,inner sep=0pt] at (350,24) {- velocidade: double};
+\node[anchor=north west,inner sep=0pt] at (350,35) {- dano: int; tipo: String};
+\node[anchor=north west,inner sep=0pt] at (350,46) {- alvo: InimigoLixo};
+\draw (345,62) -- (500,62);
+\node[anchor=north west,inner sep=0pt] at (350,68) {+ atualizar()};
+
+\draw[fill=gray!5] (0,150) rectangle (155,260);
+\node[anchor=north,inner sep=0pt] at (77.5,154) {\textbf{TorreTartaruga (abstrata)}};
+\draw (0,171) -- (155,171);
+\node[anchor=north west,inner sep=0pt] at (5,174) {- custo, dano: int};
+\node[anchor=north west,inner sep=0pt] at (5,185) {- alcance: double};
+\node[anchor=north west,inner sep=0pt] at (5,196) {- projetisAtivos: List\textless{}Projetil\textgreater{}};
+\draw (0,212) -- (155,212);
+\node[anchor=north west,inner sep=0pt] at (5,218) {+ atacar(InimigoLixo)};
+\node[anchor=north west,inner sep=0pt] at (5,229) {+ atualizar()};
+
+\draw[fill=gray!5] (345,150) rectangle (500,260);
+\node[anchor=north,inner sep=0pt] at (422.5,154) {\textbf{InimigoLixo (abstrata)}};
+\draw (345,171) -- (500,171);
+\node[anchor=north west,inner sep=0pt] at (350,174) {- vidaMaxima, vidaAtual: int};
+\node[anchor=north west,inner sep=0pt] at (350,185) {- velocidade: double};
+\node[anchor=north west,inner sep=0pt] at (350,196) {- recompensa: int};
+\draw (345,212) -- (500,212);
+\node[anchor=north west,inner sep=0pt] at (350,218) {+ receberDano(int)};
+\node[anchor=north west,inner sep=0pt] at (350,229) {+ estaDestruido(): boolean};
+
+\draw[fill=gray!5] (0,300) rectangle (155,365);
+\node[anchor=north,inner sep=0pt] at (77.5,304) {\textbf{TartarugaVerde (planejada)}};
+\draw (0,321) -- (155,321);
+\draw (0,329) -- (155,329);
+\node[anchor=north west,inner sep=0pt] at (5,335) {+ atacar(InimigoLixo)};
+
+\draw[fill=gray!5] (0,390) rectangle (155,455);
+\node[anchor=north,inner sep=0pt] at (77.5,394) {\textbf{TartarugaDeCouro}};
+\draw (0,411) -- (155,411);
+\draw (0,419) -- (155,419);
+\node[anchor=north west,inner sep=0pt] at (5,425) {+ atacar(InimigoLixo)};
+
+\draw[fill=gray!5] (0,480) rectangle (155,545);
+\node[anchor=north,inner sep=0pt] at (77.5,484) {\textbf{TartarugaDePente}};
+\draw (0,501) -- (155,501);
+\node[anchor=north west,inner sep=0pt] at (5,504) {- contadorAtaques: int};
+\draw (0,520) -- (155,520);
+\node[anchor=north west,inner sep=0pt] at (5,526) {+ atacar(InimigoLixo)};
+
+\draw[fill=gray!5] (345,300) rectangle (500,365);
+\node[anchor=north,inner sep=0pt] at (422.5,304) {\textbf{GarrafaPet (planejada)}};
+\draw (345,321) -- (500,321);
+\draw (345,329) -- (500,329);
+\node[anchor=north west,inner sep=0pt] at (350,335) {+ atualizar()};
+
+\draw[fill=gray!5] (345,390) rectangle (500,455);
+\node[anchor=north,inner sep=0pt] at (422.5,394) {\textbf{RedeFantasma (planejada)}};
+\draw (345,411) -- (500,411);
+\draw (345,419) -- (500,419);
+\node[anchor=north west,inner sep=0pt] at (350,425) {+ atualizar()};
+
+\draw[fill=gray!5] (345,480) rectangle (500,545);
+\node[anchor=north,inner sep=0pt] at (422.5,484) {\textbf{Microplastico (planejado)}};
+\draw (345,501) -- (500,501);
+\draw (345,509) -- (500,509);
+\node[anchor=north west,inner sep=0pt] at (350,515) {+ atualizar()};
+\end{tikzpicture}\end{center}
+
+O triângulo com preenchimento em branco indica relação de herança (generalização/especialização). O sinal $-$ representa atributo privado e $+$ indica método público. A classe \texttt{TorreTartaruga} mantém uma coleção de \texttt{Projetil}; cada projétil referencia uma instância de \texttt{InimigoLixo} como alvo de sua trajetória. Os atributos de vida pertencem à hierarquia de \texttt{InimigoLixo}, enquanto a classe abstrata \texttt{Entidade} encapsula posicionamento bidimensional e estado de atividade no mapa.
+
+\clearpage
+\section*{4. Diagrama de Classes -- Ciclo de Jogo e Interface}
+A coordenação da execução e a interação com o usuário são organizadas de modo a desacoplar a camada de apresentação da lógica de regras do sistema. A interface com o usuário pode ser concretizada tanto em modo texto (terminal/CLI) quanto por meio de uma interface gráfica simplificada, proporcionando flexibilidade na execução do projeto. O componente \texttt{GameController} atua como mediador entre as ações do usuário e o modelo de domínio, coordenando o \texttt{GameLoop}, o despacho de ondas (\texttt{WaveService}) e as transações de compra de unidades (\texttt{LojaService}).
+
+\begin{center}\begin{tikzpicture}[x=0.98pt,y=-0.98pt,font=\scriptsize]
+\path[use as bounding box] (0,0) rectangle (500,520);
+
+\draw[dashed,->] (125,75) -- (125,95) -- (220,95) -- (220,115);
+\draw[dashed,->] (375,75) -- (375,95) -- (280,95) -- (280,115);
+
+\draw[dashed,->] (200,215) -- (200,235) -- (77,235) -- (77,260);
+\draw[dashed,->] (249,215) -- (249,260);
+\draw[-] (327,300) -- (345,300);
+\draw[-] (77,355) -- (77,420);
+\node[anchor=south west,inner sep=0pt] at (82,395) {1};
+\draw[-] (155,315) -- (164,315) -- (164,400) -- (230,400) -- (230,420);
+\draw[-] (249,355) -- (249,420);
+\node[anchor=south west,inner sep=0pt] at (255,395) {1};
+\draw[-] (200,355) -- (200,380) -- (105,380) -- (105,420);
+
+\draw[fill=gray!5] (30,0) rectangle (220,75);
+\node[anchor=north,inner sep=0pt] at (125,4) {\textbf{InterfaceMenu / Ranking}};
+\draw (30,21) -- (220,21);
+\draw (30,29) -- (220,29);
+\node[anchor=north west,inner sep=0pt] at (35,35) {+ exibirMenu()};
+\node[anchor=north west,inner sep=0pt] at (35,46) {+ exibirRanking()};
+\node[anchor=north west,inner sep=0pt] at (35,57) {+ lerOpcaoUsuario()};
+
+\draw[fill=gray!5] (280,0) rectangle (470,75);
+\node[anchor=north,inner sep=0pt] at (375,4) {\textbf{InterfaceJogo (Terminal / GUI)}};
+\draw (280,21) -- (470,21);
+\draw (280,29) -- (470,29);
+\node[anchor=north west,inner sep=0pt] at (285,35) {+ renderizarEstado()};
+\node[anchor=north west,inner sep=0pt] at (285,46) {+ capturarAcaoJogador()};
+\node[anchor=north west,inner sep=0pt] at (285,57) {+ notificarMensagem(String)};
+
+\draw[fill=gray!5] (172,115) rectangle (327,215);
+\node[anchor=north,inner sep=0pt] at (249.5,119) {\textbf{GameController}};
+\draw (172,136) -- (327,136);
+\draw (172,144) -- (327,144);
+\node[anchor=north west,inner sep=0pt] at (177,150) {+ novaPartida()};
+\node[anchor=north west,inner sep=0pt] at (177,161) {+ comprarTorre(tipo, col, lin)};
+\node[anchor=north west,inner sep=0pt] at (177,172) {+ processarCiclo()};
+\node[anchor=north west,inner sep=0pt] at (177,183) {+ pausarPartida()};
+\node[anchor=north west,inner sep=0pt] at (177,194) {+ finalizarPartida()};
+
+\draw[fill=gray!5] (0,260) rectangle (155,355);
+\node[anchor=north,inner sep=0pt] at (77.5,264) {\textbf{LojaService}};
+\draw (0,281) -- (155,281);
+\node[anchor=north west,inner sep=0pt] at (5,284) {- jogador: Jogador};
+\node[anchor=north west,inner sep=0pt] at (5,295) {- mapa: Mapa};
+\draw (0,311) -- (155,311);
+\node[anchor=north west,inner sep=0pt] at (5,317) {+ comprar(tipo, col, lin)};
+\node[anchor=north west,inner sep=0pt] at (5,328) {+ validarSaldo(custo)};
+
+\draw[fill=gray!5] (172,260) rectangle (327,355);
+\node[anchor=north,inner sep=0pt] at (249.5,264) {\textbf{GameLoop}};
+\draw (172,281) -- (327,281);
+\node[anchor=north west,inner sep=0pt] at (177,284) {- emExecucao: boolean};
+\node[anchor=north west,inner sep=0pt] at (177,295) {- inimigos: List\textless{}InimigoLixo\textgreater{}};
+\draw (172,311) -- (327,311);
+\node[anchor=north west,inner sep=0pt] at (177,317) {+ atualizar()};
+\node[anchor=north west,inner sep=0pt] at (177,328) {+ pausar(); retomar()};
+
+\draw[fill=gray!5] (345,260) rectangle (500,355);
+\node[anchor=north,inner sep=0pt] at (422.5,264) {\textbf{WaveService}};
+\draw (345,281) -- (500,281);
+\node[anchor=north west,inner sep=0pt] at (350,284) {- numeroOnda: int};
+\draw (345,300) -- (500,300);
+\node[anchor=north west,inner sep=0pt] at (350,306) {+ iniciarOnda(int)};
+\node[anchor=north west,inner sep=0pt] at (350,317) {+ proximoInimigo()};
+
+\draw[fill=gray!5] (0,420) rectangle (155,515);
+\node[anchor=north,inner sep=0pt] at (77.5,424) {\textbf{Jogador}};
+\draw (0,441) -- (155,441);
+\node[anchor=north west,inner sep=0pt] at (5,444) {- nome: String};
+\node[anchor=north west,inner sep=0pt] at (5,455) {- moedas, vida, pontos: int};
+\draw (0,471) -- (155,471);
+\node[anchor=north west,inner sep=0pt] at (5,477) {+ gastar(int); ganhar(int)};
+\node[anchor=north west,inner sep=0pt] at (5,488) {+ perderVida(int)};
+
+\draw[fill=gray!5] (172,420) rectangle (327,515);
+\node[anchor=north,inner sep=0pt] at (249.5,424) {\textbf{Mapa}};
+\draw (172,441) -- (327,441);
+\node[anchor=north west,inner sep=0pt] at (177,444) {- caminho: List\textless{}Coordenada\textgreater{}};
+\node[anchor=north west,inner sep=0pt] at (177,455) {- torres: List\textless{}TorreTartaruga\textgreater{}};
+\draw (172,471) -- (327,471);
+\node[anchor=north west,inner sep=0pt] at (177,477) {+ podeConstruir(col, lin)};
+\node[anchor=north west,inner sep=0pt] at (177,488) {+ adicionarTorre(torre)};
+
+\draw[fill=gray!5] (345,420) rectangle (500,515);
+\node[anchor=north,inner sep=0pt] at (422.5,424) {\textbf{Exceções de Domínio}};
+\draw (345,441) -- (500,441);
+\draw (345,449) -- (500,449);
+\node[anchor=north west,inner sep=0pt] at (350,455) {PosicaoInvalidaException};
+\node[anchor=north west,inner sep=0pt] at (350,466) {RecursosInsuficientesException};
+\node[anchor=north west,inner sep=0pt] at (350,477) {(estendem Exception)};
+\end{tikzpicture}\end{center}
+
+Seta tracejada indica relação de uso ou dependência funcional; linha contínua expressa associação estrutural. A camada de apresentação é representada de forma flexível pelas interfaces de menu e de jogo, operando como interface em linha de comando ou gráfica. O \texttt{GameLoop} gerencia o estado da partida associando-se a \texttt{Jogador}, \texttt{Mapa} e \texttt{WaveService}. O serviço \texttt{LojaService} valida posições e saldo antes de efetivar modificações nas instâncias do modelo.
+
+\clearpage
+\section*{5. Diagrama de Classes -- Persistência de Dados}
+O modelo de persistência foi planejado com foco na simplicidade estrutural, empregando arquivos de texto plano locais para armazenamento e dispensando gerenciadores de banco de dados externos. As classes \texttt{GerenciadorRanking} e \texttt{RegistroRanking} já se encontram implementadas e operantes em memória, fazendo uso da interface \texttt{Comparable} para a ordenação automática das pontuações registradas.
+
+Para as etapas subsequentes, projeta-se a classe \texttt{GerenciadorPersistencia}, responsável pelas operações de leitura e escrita dos recordes de pontuação e dos dados essenciais de uma partida em andamento (\texttt{DadosPartida}), registrando informações como a onda alcançada, recursos acumulados e coordenadas das torres ativas.
+
+\begin{center}\begin{tikzpicture}[x=0.98pt,y=-0.98pt,font=\scriptsize]
+\path[use as bounding box] (0,0) rectangle (500,340);
+
+\draw[-] (220,75) -- (280,75);
+\node[anchor=south west,inner sep=0pt] at (225,68) {1};
+\node[anchor=south east,inner sep=0pt] at (275,68) {0..*};
+
+\draw[dashed,->] (120,200) -- (120,130);
+\draw[dashed,->] (220,255) -- (280,255);
+
+\draw[fill=gray!5] (20,20) rectangle (220,130);
+\node[anchor=north,inner sep=0pt] at (120,24) {\textbf{GerenciadorRanking}};
+\draw (20,41) -- (220,41);
+\node[anchor=north west,inner sep=0pt] at (25,45) {- records: List\textless{}RegistroRanking\textgreater{}};
+\draw (20,68) -- (220,68);
+\node[anchor=north west,inner sep=0pt] at (25,74) {+ adicionarRegistro(nome, p, o)};
+\node[anchor=north west,inner sep=0pt] at (25,86) {+ getTopRegistros(limite: int): List};
+
+\draw[fill=gray!5] (280,20) rectangle (480,130);
+\node[anchor=north,inner sep=0pt] at (380,24) {\textbf{RegistroRanking}};
+\draw (280,41) -- (480,41);
+\node[anchor=north west,inner sep=0pt] at (285,45) {- nomeJogador: String};
+\node[anchor=north west,inner sep=0pt] at (285,57) {- pontuacaoTotal: int};
+\node[anchor=north west,inner sep=0pt] at (285,69) {- ondasSobrevividas: int};
+\draw (280,88) -- (480,88);
+\node[anchor=north west,inner sep=0pt] at (285,94) {+ compareTo(RegistroRanking): int};
+\node[anchor=north west,inner sep=0pt] at (285,106) {+ getPontuacaoTotal(): int};
+
+\draw[fill=gray!5] (20,200) rectangle (220,310);
+\node[anchor=north,inner sep=0pt] at (120,204) {\textbf{GerenciadorPersistencia (planejada)}};
+\draw (20,221) -- (220,221);
+\node[anchor=north west,inner sep=0pt] at (25,225) {- caminhoRanking: String};
+\node[anchor=north west,inner sep=0pt] at (25,237) {- caminhoPartida: String};
+\draw (20,256) -- (220,256);
+\node[anchor=north west,inner sep=0pt] at (25,262) {+ salvarRanking(List\textless{}RegistroRanking\textgreater{})};
+\node[anchor=north west,inner sep=0pt] at (25,274) {+ carregarRanking(): List};
+\node[anchor=north west,inner sep=0pt] at (25,286) {+ salvarPartida(DadosPartida)};
+\node[anchor=north west,inner sep=0pt] at (25,298) {+ carregarPartida(): DadosPartida};
+
+\draw[fill=gray!5] (280,200) rectangle (480,310);
+\node[anchor=north,inner sep=0pt] at (380,204) {\textbf{DadosPartida (planejada)}};
+\draw (280,221) -- (480,221);
+\node[anchor=north west,inner sep=0pt] at (285,225) {- nomeJogador: String};
+\node[anchor=north west,inner sep=0pt] at (285,237) {- ondaAtual, moedas, vida: int};
+\node[anchor=north west,inner sep=0pt] at (285,249) {- torresAtivas: List\textless{}String\textgreater{}};
+\draw (280,268) -- (480,268);
+\node[anchor=north west,inner sep=0pt] at (285,274) {+ getOndaAtual(): int};
+\node[anchor=north west,inner sep=0pt] at (285,286) {+ getTorresAtivas(): List};
+\end{tikzpicture}\end{center}
+
+A interface \texttt{Comparable} implementada por \texttt{RegistroRanking} define a ordem natural dos elementos pela pontuação de maneira decrescente. O componente \texttt{GerenciadorPersistencia} utilizará manipuladores de fluxo de entrada e saída padrão do Java (\texttt{BufferedReader} e \texttt{BufferedWriter}) para serializar os registros em arquivos de texto delimitados. O armazenamento é estruturado para salvar e reconstruir posições de torres e recursos sem dependências externas.
+
+\clearpage
+\section*{6. Princípios de POO e Organização Modular}
+\subsection*{Fluxo de Interação do Usuário}
+O fluxo operacional do jogo é estruturado de maneira simples e direta, cobrindo três momentos fundamentais de interação:
+\begin{enumerate}
+    \item \textbf{Menu Principal:} ponto de acesso inicial onde o jogador pode iniciar uma nova partida, consultar a tabela de melhores pontuações registradas ou encerrar a aplicação.
+    \item \textbf{Tela de Jogo (Terminal ou Gráfica):} exibição do mapa e do caminho dos resíduos, acompanhamento contínuo dos indicadores vitais (integridade da praia, saldo de conchas, pontuação e onda vigente), seleção e posicionamento de torres de tartaruga em células válidas, além de comandos para disparo de onda e pausa.
+    \item \textbf{Tela de Encerramento:} exibição do resultado de vitória ou derrota, consolidação dos pontos obtidos e formulário para inserção do nome do jogador a fim de salvar o registro no ranking local.
+\end{enumerate}
+
+\subsection*{Aplicação dos Pilares da Orientação a Objetos}
+A arquitetura do software apoia-se rigorosamente nos quatro pilares fundamentais da Programação Orientada a Objetos:
+\begin{itemize}
+    \item \textbf{Abstração:} identificada nas classes base \texttt{Entidade}, \texttt{TorreTartaruga} e \texttt{InimigoLixo}, que representam os conceitos essenciais do jogo e isolam detalhes específicos de movimentação e combate.
+    \item \textbf{Herança:} manifestada na derivação das espécies concretas de tartarugas (\texttt{TartarugaDeCouro}, \texttt{TartarugaDePente} e \texttt{TartarugaVerde}) e tipos de dejetos marinhos, viabilizando o reuso de código e a extensão natural de atributos estruturais.
+    \item \textbf{Polimorfismo:} empregado no método abstrato \texttt{atacar(InimigoLixo)}, permitindo que cada subclasse de torre execute sua própria lógica de ataque (disparos pesados lentos versus acertos críticos por contagem de disparos), sem que o controlador precise conhecer a espécie concreta instanciada.
+    \item \textbf{Encapsulamento:} concretizado na proteção estrita de todos os atributos críticos (como coordenadas, integridade, custo e pontuação) sob o modificador \texttt{private}, com alterações intermediadas exclusivamente por métodos de acesso e mutação munidos de validação de estado.
+    \item \textbf{Tratamento de Exceções:} criação das classes de exceção \texttt{PosicaoInvalidaException} e \texttt{RecursosInsuficientesException}, que asseguram a integridade das regras da partida ao impedir construções fora dos limites da malha ou compras sem saldo suficiente.
+\end{itemize}
+
+\subsection*{Módulos do Sistema e Organização Arquitetural}
+O sistema foi estruturado em quatro módulos técnicos coesos, minimizando o acoplamento entre domínio, regras e visualização:
+\begin{enumerate}
+    \item \textbf{Módulo de Entidades e Combate:} agrega as classes do modelo físico do jogo (\texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{TartarugaDeCouro}, \texttt{TartarugaDePente}, \texttt{TartarugaVerde}, \texttt{InimigoLixo} e \texttt{Projetil}).
+    \item \textbf{Módulo de Lógica e Partida:} reúne os componentes responsáveis pelo estado da partida, malha do tabuleiro, progressão de ondas e economia (\texttt{Mapa}, \texttt{Jogador}, \texttt{LojaService}, \texttt{WaveService} e \texttt{GameLoop}).
+    \item \textbf{Módulo de Persistência e Ranking:} engloba a gestão e serialização dos registros de desempenho em memória e em arquivo (\texttt{RegistroRanking}, \texttt{GerenciadorRanking}, \texttt{GerenciadorPersistencia} e \texttt{DadosPartida}).
+    \item \textbf{Módulo de Apresentação e Controle:} compreende o mediador \texttt{GameController} e as interfaces de visualização e captura de ações do usuário, adaptáveis para modo terminal ou interface gráfica.
+\end{enumerate}
+
+\clearpage
+\section*{7. Conclusão e Trabalhos Futuros}
+\subsection*{Considerações da Primeira Etapa}
+A primeira etapa de desenvolvimento do projeto \textit{Tartarugas vs. Lixo Marinho} cumpriu com êxito os requisitos estruturais e de modelagem propostos. Estabeleceu-se uma arquitetura sólida orientada a objetos, comprovada pela implementação das classes basilares de combate (\texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{InimigoLixo}), especializações concretas de defensores (\texttt{TartarugaDeCouro} e \texttt{TartarugaDePente}) e a entidade balística \texttt{Projetil}.
+
+Adicionalmente, consolidou-se o subsistema de pontuação e ranking em memória com suporte a ordenação automática baseada na interface \texttt{Comparable}, validada por suíte de testes unitários automatizados com o \textit{framework} JUnit. A modelagem em diagramas de classes proporcionou uma visão arquitetural abrangente e garantiu o desacoplamento entre os elementos de combate, a camada de regras da partida e as estruturas de persistência e visualização.
+
+\subsection*{Cronograma de Trabalhos Futuros}
+O planejamento para a segunda etapa do projeto contempla o desenvolvimento e a integração dos módulos restantes, seguindo o roteiro técnico delineado abaixo:
+\begin{enumerate}
+    \item \textbf{Conclusão das Unidades de Domínio:} implementação da especialização inicial \texttt{TartarugaVerde} e das classes concretas de dejetos (\texttt{GarrafaPet}, \texttt{RedeFantasma} e \texttt{Microplastico}), calibrando seus atributos de movimentação e resistência.
+    \item \textbf{Construção do Ciclo de Jogo e Ondas:} desenvolvimento do motor contínuo (\texttt{GameLoop}) e do despachante \texttt{WaveService}, integrando a geração temporal dos resíduos, a navegação pelo trajeto da malha e a sincronização do avanço de projéteis e verificação de colisões.
+    \item \textbf{Regras Econômicas e Tabuleiro:} integração das classes \texttt{Mapa}, \texttt{Jogador} e \texttt{LojaService}, com validação rigorosa de posições e recursos via exceções de domínio (\texttt{PosicaoInvalidaException} e \texttt{RecursosInsuficientesException}).
+    \item \textbf{Camada de Interface com o Usuário:} construção da camada de apresentação (em modo texto para terminal ou interface gráfica simplificada) mediada por \texttt{GameController}, garantindo a exibição do mapa e o controle de ações do jogador.
+    \item \textbf{Persistência Simplificada em Arquivo:} desenvolvimento da classe \texttt{GerenciadorPersistencia} para gravação e leitura de recordes e recuperação de partidas interrompidas a partir de arquivos de texto locais.
+\end{enumerate}
+
+\subsection*{Considerações Finais}
+A abordagem modular e os fundamentos de Orientação a Objetos adotados asseguram viabilidade técnica para a conclusão do projeto dentro do cronograma da disciplina. A arquitetura estabelecida combina rigor conceitual com flexibilidade operacional, permitindo que a aplicação seja executada tanto em ambiente de console quanto com recursos visuais, mantendo o objetivo central de sensibilização ambiental por meio da tecnologia.
+
+\end{document}
