@@ -1,12 +1,7 @@
 package br.ufv.ccf313.projeto.model;
 
-/**
- * Tartaruga-de-Pente (Eretmochelys imbricata).
- * Torre ágil de custo médio com alta cadência de disparo.
- * A cada 5 ataques consecutivos, o próximo causa dano dobrado (crítico).
- *
- * @author Tomás
- */
+// Torre ágil de custo médio com alta cadência de disparo.
+// A cada 5 ataques consecutivos, o próximo causa dano dobrado (crítico).
 public class TartarugaDePente extends TorreTartaruga {
 
     private static final int CUSTO = 100;
