@@ -1,0 +1,11 @@
+# Compilação e binários
+target/
+bin/
+*.class
+
+# Dependências locais
+lib/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
