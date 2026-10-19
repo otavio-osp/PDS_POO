@@ -223,7 +223,7 @@ O triângulo com preenchimento em branco indica relação de herança (generaliz
 
 \clearpage
 \section*{4. Diagrama de Classes -- Ciclo de Jogo e Interface}
-A coordenação da execução e a interação com o usuário são organizadas de modo a desacoplar a camada de apresentação da lógica de regras do sistema. A interface com o usuário pode ser concretizada tanto em modo texto (terminal/CLI) quanto por meio de uma interface gráfica simplificada, proporcionando flexibilidade na execução do projeto. O componente \texttt{GameController} atua como mediador entre as ações do usuário e o modelo de domínio, coordenando o \texttt{GameLoop}, o despacho de ondas (\texttt{WaveService}) e as transações de compra de unidades (\texttt{LojaService}).
+A coordenação da execução e a interação com o usuário são organizadas de modo a desacoplar a camada de apresentação da lógica de regras do sistema. Assim, a interface com o usuário será concretizada com uma interface gráfica simplificada. O componente \texttt{GameController} atua como mediador entre as ações do usuário e o modelo de domínio, coordenando o \texttt{GameLoop}, o despacho de ondas (\texttt{WaveService}) e as transações de compra de unidades (\texttt{LojaService}).
 
 \begin{center}\begin{tikzpicture}[x=0.98pt,y=-0.98pt,font=\scriptsize]
 \path[use as bounding box] (0,0) rectangle (500,520);
@@ -386,7 +386,7 @@ A interface \texttt{Comparable} implementada por \texttt{RegistroRanking} define
 O fluxo operacional do jogo é estruturado de maneira simples e direta, cobrindo três momentos fundamentais de interação:
 \begin{enumerate}
     \item \textbf{Menu Principal:} ponto de acesso inicial onde o jogador pode iniciar uma nova partida, consultar a tabela de melhores pontuações registradas ou encerrar a aplicação.
-    \item \textbf{Tela de Jogo (Terminal ou Gráfica):} exibição do mapa e do caminho dos resíduos, acompanhamento contínuo dos indicadores vitais (integridade da praia, saldo de conchas, pontuação e onda vigente), seleção e posicionamento de torres de tartaruga em células válidas, além de comandos para disparo de onda e pausa.
+    \item \textbf{Tela de Jogo:} exibição do mapa e do caminho dos resíduos, acompanhamento contínuo dos indicadores vitais (integridade da praia, saldo de conchas, pontuação e onda vigente), seleção e posicionamento de torres de tartaruga em células válidas, além de comandos para disparo de onda e pausa.
     \item \textbf{Tela de Encerramento:} exibição do resultado de vitória ou derrota, consolidação dos pontos obtidos e formulário para inserção do nome do jogador a fim de salvar o registro no ranking local.
 \end{enumerate}
 
