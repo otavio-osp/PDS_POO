@@ -15,6 +15,14 @@ public class RegistroRanking implements Comparable<RegistroRanking> {
     public int getPontuacaoTotal() { return pontuacaoTotal; }
     public int getOndasSobrevividas() { return ondasSobrevividas; }
 
+    public void setPontuacaoTotal(int pontuacaoTotal) {
+        this.pontuacaoTotal = pontuacaoTotal;
+    }
+
+    public void setOndasSobrevividas(int ondasSobrevividas) {
+        this.ondasSobrevividas = ondasSobrevividas;
+    }
+
     // Ordena do maior para o menor (Ordem decrescente de pontuação)
     @Override
     public int compareTo(RegistroRanking outro) {

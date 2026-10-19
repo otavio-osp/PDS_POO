@@ -8,13 +8,20 @@ public abstract class InimigoLixo extends Entidade {
     private int recompensa; // conchas concedidas ao ser destruído
 
     
-    // construtor da subclasse 
     public InimigoLixo(int posX, int posY, int vidaMaxima, double velocidade, int recompensa){
         super(posX, posY); 
         this.vidaMaxima = vidaMaxima;
         this.vidaAtual = vidaMaxima;
         this.velocidade = velocidade;
         this.recompensa = recompensa;
+    }
+
+    @Override
+    public void atualizar() {
+        // Por padrão no protótipo, o inimigo se mantém ativo enquanto tiver vida
+        if (this.vidaAtual <= 0) {
+            desativar();
+        }
     }
 
 

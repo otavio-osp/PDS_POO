@@ -23,17 +23,6 @@ public abstract class TorreTartaruga extends Entidade {
     // CollisionService
     private final List<Projetil> projetisAtivos;
 
-    /**
-     * Construtor de TorreTartaruga.
-     *
-     * @param posX             Coluna no grid.
-     * @param posY             Linha no grid.
-     * @param nome             Nome da espécie de tartaruga.
-     * @param custo            Custo em conchas para comprar.
-     * @param alcance          Raio de alcance (em células do grid).
-     * @param dano             Dano por ataque.
-     * @param velocidadeAtaque Ataques por segundo.
-     */
     public TorreTartaruga(int posX, int posY, String nome, int custo,
             double alcance, int dano, double velocidadeAtaque) {
         super(posX, posY);
@@ -70,8 +59,12 @@ public abstract class TorreTartaruga extends Entidade {
      *
      * @return true se pode atacar.
      */
-    public boolean podeatAcar() {
+    public boolean podeAtacar() {
         return tempoCooldown <= 0;
+    }
+
+    public boolean podeatAcar() {
+        return podeAtacar();
     }
 
     /**

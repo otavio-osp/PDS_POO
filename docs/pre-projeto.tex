@@ -410,7 +410,77 @@ O sistema foi estruturado em quatro módulos técnicos coesos, minimizando o aco
 \end{enumerate}
 
 \clearpage
-\section*{7. Conclusão e Trabalhos Futuros}
+\section*{7. Planejamento das 5 Funcionalidades Completas (CRUD)}
+Conforme as diretrizes da disciplina, o sistema contempla o planejamento de cinco funcionalidades completas, cada uma provendo operações de criação (Create), consulta (Read), atualização (Update) e remoção (Delete):
+
+\begin{enumerate}
+    \item \textbf{Gerenciamento de Ranking e Recordes (Implementada na Entrega Parcial):}
+    \begin{itemize}
+        \item \textit{Create:} Inserção de novos registros de pontuação ao concluir partidas (\texttt{adicionarRegistro}).
+        \item \textit{Read:} Consulta e ordenação das maiores pontuações (\texttt{getTopRegistros}) e busca individual por nome (\texttt{buscarRegistro}).
+        \item \textit{Update:} Atualização da pontuação e ondas sobrevividas de um jogador (\texttt{atualizarRegistro}).
+        \item \textit{Delete:} Exclusão de registros de pontuação obsoletos (\texttt{removerRegistro}).
+    \end{itemize}
+
+    \item \textbf{Gerenciamento de Torres no Tabuleiro (Planejada):}
+    \begin{itemize}
+        \item \textit{Create:} Aquisição e posicionamento de novas torres de tartaruga em células válidas do grid.
+        \item \textit{Read:} Inspeção visual e textual das propriedades, dano e raio de alcance de cada torre ativa.
+        \item \textit{Update:} Evolução de nível (\textit{upgrade}) da torre, aprimorando atributos de cadência e dano.
+        \item \textit{Delete:} Venda e remoção da torre do tabuleiro com reembolso proporcional em conchas.
+    \end{itemize}
+
+    \item \textbf{Gerenciamento de Jogador e Perfis (Planejada):}
+    \begin{itemize}
+        \item \textit{Create:} Cadastro de perfil de jogador contendo nome e identificador.
+        \item \textit{Read:} Consulta de dados cadastrais, saldo de conchas acumulado e estatísticas de vitórias.
+        \item \textit{Update:} Edição de dados do perfil e preferências de exibição.
+        \item \textit{Delete:} Exclusão de contas de perfil e histórico associado.
+    \end{itemize}
+
+    \item \textbf{Gerenciamento de Ondas de Resíduos (Planejada):}
+    \begin{itemize}
+        \item \textit{Create:} Criação e configuração de novas ondas com listas específicas de dejetos marinhos.
+        \item \textit{Read:} Consulta da relação de resíduos e temporização de chegada da onda em vigor.
+        \item \textit{Update:} Ajuste de dificuldade e parâmetros de escalonamento dos dejetos.
+        \item \textit{Delete:} Cancelamento ou redefinição da fila de ondas configuradas.
+    \end{itemize}
+
+    \item \textbf{Gerenciamento de Partidas Salvas (Save Game) (Planejada):}
+    \begin{itemize}
+        \item \textit{Create:} Gravação do estado corrente da partida em slot de arquivo texto (\texttt{DadosPartida}).
+        \item \textit{Read:} Listagem de partidas salvas e leitura para retomada do jogo.
+        \item \textit{Update:} Sobrescrita do progresso da sessão com dados atualizados da onda vigente.
+        \item \textit{Delete:} Exclusão de arquivos de salvamento antigos.
+    \end{itemize}
+\end{enumerate}
+
+\section*{8. Resultados da Entrega Parcial e Relatório de Testes}
+\subsection*{Classe Principal Executável (\texttt{Main})}
+Para viabilizar a verificação imediata dos artefatos da primeira entrega sem a dependência da interface gráfica final, implementou-se a classe executável \texttt{Main} no pacote principal. Esta classe atua como ponto de entrada para:
+\begin{enumerate}
+    \item Demonstrar a instanciação polimórfica das classes de combate herdadas de \texttt{Entidade} e \texttt{TorreTartaruga};
+    \item Executar em console o ciclo integral das quatro operações fundamentais do CRUD de Ranking (inserção, consulta, atualização de pontuação e remoção).
+\end{enumerate}
+
+\subsection*{Relatório Textual dos Testes Automatizados (JUnit)}
+Em conformidade com a seção de testes da disciplina, elaborou-se a suíte de testes unitários \texttt{GerenciadorRankingTest}, cobrindo a funcionalidade completa implementada:
+\begin{itemize}
+    \item \textbf{Partes testadas:} Métodos \texttt{adicionarRegistro}, \texttt{getTopRegistros}, \texttt{buscarRegistro}, \texttt{atualizarRegistro} e \texttt{removerRegistro} da classe \texttt{GerenciadorRanking}.
+    \item \textbf{Cenários considerados:}
+    \begin{enumerate}
+        \item Inserção de múltiplos registros desordenados e conferência da ordenação decrescente automática;
+        \item Busca por nome existente (retorno correto) e por nome não cadastrado (retorno \texttt{null});
+        \item Atualização de pontuação e ondas de jogador cadastrado (sucesso) e tentativa em registro inexistente (\texttt{false});
+        \item Remoção de registro existente (sucesso e decréscimo do total) e tentativa em registro inexistente;
+        \item Validação de integridade: bloqueio de nomes vazios ou nulos via disparo de \texttt{IllegalArgumentException}.
+    \end{enumerate}
+    \item \textbf{Resultados esperados:} Sucesso em todas as asserções de igualdade (\texttt{assertEquals}), não-nulos (\texttt{assertNotNull}) e tratamento de exceção (\texttt{assertThrows}).
+    \item \textbf{Resultados obtidos:} 100\% de êxito na execução dos cinco casos de teste automatizados sob JUnit 5.
+\end{itemize}
+
+\clearpage
+\section*{9. Conclusão e Trabalhos Futuros}
 \subsection*{Considerações da Primeira Etapa}
 A primeira etapa de desenvolvimento do projeto \textit{Tartarugas vs. Lixo Marinho} cumpriu com êxito os requisitos estruturais e de modelagem propostos. Estabeleceu-se uma arquitetura sólida orientada a objetos, comprovada pela implementação das classes basilares de combate (\texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{InimigoLixo}), especializações concretas de defensores (\texttt{TartarugaDeCouro} e \texttt{TartarugaDePente}) e a entidade balística \texttt{Projetil}.
 
