@@ -1,11 +1,8 @@
 package br.ufv.ccf313.projeto.model;
 
-/**
- * Projétil disparado por uma torre em direção a um inimigo.
- * Persegue o alvo e aplica dano ao colidir.
- *
- * @author Tomás
- */
+// Projétil disparado por uma torre em direção a um inimigo.
+// Persegue o alvo e aplica dano ao colidir.
+
 public class Projetil extends Entidade {
 
     private final double velocidade;

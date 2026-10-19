@@ -1,11 +1,6 @@
 package br.ufv.ccf313.projeto.model;
 
-/**
- * Tartaruga-de-Couro (Dermochelys coriacea).
- * Torre robusta de alto dano e longo alcance, com cadência mais lenta.
- *
- * @author Tomás
- */
+// Torre robusta de alto dano e longo alcance, com cadência mais lenta.
 public class TartarugaDeCouro extends TorreTartaruga {
 
     private static final int CUSTO = 200;
