@@ -5,6 +5,7 @@
 \usepackage[margin=2cm]{geometry}
 \usepackage{lmodern}
 \usepackage{array,tabularx}
+\usepackage{colortbl}
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -27,22 +28,25 @@
 {\small UNIVERSIDADE FEDERAL DE VIÇOSA - UFV\par}
 \vspace{0.15cm}
 {\small CAMPUS FLORESTAL\par}
-\vspace{5.0cm}
+\vspace{3.5cm}
 {\Large\bfseries Trabalho Prático - POO\par}
 \vspace{0.4cm}
 {\large\bfseries Tartarugas vs. Lixo Marinho\par}
 \vspace{0.2cm}
-{\normalsize Relatório Técnico - Primeira Entrega\par}
-\vspace{2.7cm}
+{\normalsize Relatório Técnico - Primeira Entrega Parcial\par}
+\vspace{0.4cm}
+{\small\textbf{Professor:} Philipe de Freitas Melo\par}
+{\small\textbf{Disciplina:} CCF313 -- Programação Orientada a Objetos\par}
+\vspace{1.8cm}
 \begin{flushright}
 Lethícia Gonçalves da Silva - 6571\\[3pt]
-Marina Larissa Xavier Soares - 6581\\[3pt]
 Tomás Viana Resende - 6556\\[3pt]
-Caroline Melo Silva - 6595\\[3pt]
-Otávio Soares Pedroso - 6593\\[3pt]
-Pedro Mendes Gonzaga - 6563\\[3pt]
 Bruna Lima Ribeiro - 6557\\[3pt]
 Helena Santos Perez - 6564\\[3pt]
+Otávio Soares Pedroso - 6593\\[3pt]
+Pedro Mendes Gonzaga - 6563\\[3pt]
+Marina Larissa Xavier Soares - 6581\\[3pt]
+Caroline Melo Silva - 6595\\[3pt]
 \end{flushright}
 \vfill
 Florestal - MG\\[5pt]
@@ -69,29 +73,39 @@ A primeira etapa do projeto consolida a infraestrutura conceitual, a modelagem e
 \begin{table}[h!]
 \centering
 \small
-\begin{tabular}{|p{0.27\textwidth}|p{0.25\textwidth}|p{0.41\textwidth}|}
+\begin{tabularx}{\textwidth}{|p{0.24\textwidth}|p{0.28\textwidth}|X|}
 \hline
 \textbf{Subsistema} & \textbf{Componentes} & \textbf{Status e Descrição} \\
 \hline
-Hierarquia Base & \texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{InimigoLixo} & \textbf{Implementadas}. Classes abstratas que definem coordenadas, estado ativo, alcance e atributos de vida e dano. \\
+\multicolumn{3}{|c|}{\cellcolor{gray!15}\textbf{Componentes Implementados (Primeira Entrega Parcial)}} \\
 \hline
-Torres Especializadas & \texttt{TartarugaDeCouro}, \texttt{TartarugaDePente} & \textbf{Implementadas}. Subclasses concretas com parâmetros de ataque, cadência e mecânica de acertos críticos. \\
+Classe Principal Executável & \texttt{Main.java} & \textbf{Implementada}. Ponto de entrada para demonstração da instanciação de classes e execução do CRUD em console. \\
 \hline
-Torre Inicial & \texttt{TartarugaVerde} & \textbf{Planejada}. Subclasse de custo reduzido e ataque simples para o início da partida. \\
+Funcionalidade Completa & \texttt{GerenciadorRanking}, \texttt{RegistroRanking} & \textbf{Implementados}. Módulo completo com Create, Read, Update, Delete e ordenação automática (\texttt{Comparable}). \\
 \hline
-Sistema Balístico & \texttt{Projetil} & \textbf{Implementada}. Entidade responsável pela trajetória direcionada ao alvo e aplicação de dano. \\
+Suíte de Testes Automatizados & \texttt{GerenciadorRankingTest} & \textbf{Implementada}. Conjunto de testes unitários sob o framework JUnit 5 validando o CRUD e exceções. \\
 \hline
-Resíduos Concretos & \texttt{GarrafaPet}, \texttt{RedeFantasma}, \texttt{Microplastico} & \textbf{Planejados}. Subclasses de dejetos com perfis específicos de velocidade, resistência e recompensa. \\
+Hierarquia Base de Combate & \texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{InimigoLixo} & \textbf{Implementadas}. Classes abstratas com encapsulamento de estado ativo, coordenadas e atributos basilares. \\
 \hline
-Pontuação e Recordes & \texttt{RegistroRanking}, \texttt{GerenciadorRanking} & \textbf{Implementados}. Estrutura em memória com ordenação automática (\texttt{Comparable}) e testes unitários JUnit. \\
+Torres Concretas & \texttt{TartarugaDeCouro}, \texttt{TartarugaDePente} & \textbf{Implementadas}. Subclasses com especialização polimórfica de dano, cadência e mecânica de acertos críticos. \\
 \hline
-Fluxo e Execução & \texttt{GameLoop}, \texttt{GameController}, \texttt{WaveService} & \textbf{Planejados}. Mecanismos de orquestração temporal, progressão de ondas e mediação de comandos. \\
+Sistema Balístico & \texttt{Projetil} & \textbf{Implementada}. Entidade balística responsável por perseguir alvos e aplicar dano por impacto. \\
 \hline
-Interface e Interação & Camada de Apresentação (Terminal / GUI) & \textbf{Planejada}. Visualização do mapa e recepção de comandos do jogador via terminal ou interface gráfica. \\
+\multicolumn{3}{|c|}{\cellcolor{gray!15}\textbf{Componentes Planejados (Etapas Futuras)}} \\
 \hline
-Persistência de Dados & \texttt{GerenciadorPersistencia}, \texttt{DadosPartida} & \textbf{Planejados}. Gravação e recuperação simplificadas de recordes e estados de jogo em arquivos de texto. \\
+Torre Inicial & \texttt{TartarugaVerde} & \textbf{Planejada}. Subclasse de tartaruga com baixo custo para início de partida. \\
 \hline
-\end{tabular}
+Resíduos Concretos & \texttt{GarrafaPet}, \texttt{RedeFantasma}, \texttt{Microplastico} & \textbf{Planejados}. Subclasses de dejetos marinhos com perfis de velocidade, resistência e conchas. \\
+\hline
+Tabuleiro e Economia & \texttt{Mapa}, \texttt{CelulaGrid}, \texttt{Jogador}, \texttt{LojaService} & \textbf{Planejados}. Malha de posicionamento, caminho dos resíduos, saldo de conchas e regras de compra. \\
+\hline
+Motor e Ondas & \texttt{GameLoop}, \texttt{WaveService}, \texttt{CollisionService} & \textbf{Planejados}. Temporização contínua, geração escalonada de resíduos e detecção de colisões. \\
+\hline
+Interface Gráfica & Interface Gráfica do Usuário (GUI) & \textbf{Planejada}. Telas gráficas simples em JavaFX ou Swing com botões, animações e renderização do mapa. \\
+\hline
+Persistência Física & \texttt{GerenciadorPersistencia}, \texttt{DadosPartida} & \textbf{Planejados}. Serialização de recordes e salvamento de partidas em arquivos locais de texto plano. \\
+\hline
+\end{tabularx}
 \caption{Quadro comparativo de componentes implementados e planejados.}
 \label{tab:status}
 \end{table}
@@ -108,13 +122,18 @@ A progressão da partida fundamenta-se em um modelo dinâmico de escalonamento d
 
 Esse modelo progressivo proporciona uma curva de aprendizado equilibrada, estimulando o jogador a posicionar novas torres e aprimorar as defesas existentes para conter investidas mais densas e velozes. A calibração final dos parâmetros de avanço e geração temporal será conduzida empiricamente durante a integração do ciclo principal de jogo, garantindo estabilidade e fluidez à experiência de jogabilidade.
 
-{\small\setlength{\tabcolsep}{3pt}
-\begin{tabular}{|p{0.26\textwidth}|p{0.70\textwidth}|}\hline
-\textbf{Espécie de Tartaruga} & \textbf{Perfil Tático e Parâmetros Base}\\\hline
-Tartaruga de Couro & Custo 200 conchas; dano 60; alcance 4,0; cadência balanceada. Dispara projéteis de alto impacto direcionados a alvos prioritários de grande resistência.\\\hline
-Tartaruga de Pente & Custo 100 conchas; dano base 20; alcance 2,5; cadência rápida. Implementa mecânica de acerto crítico, duplicando o dano causado a cada quinto ataque consecutivo.\\\hline
-Tartaruga Verde & Custo planejado de 50 conchas; dano 10; alcance 2,0. Unidade defensiva básica de baixo custo, voltada para a contenção inicial nas primeiras ondas.\\\hline
-\end{tabular}}
+{\small
+\begin{tabularx}{\textwidth}{|p{0.28\textwidth}|X|}
+\hline
+\textbf{Espécie de Tartaruga} & \textbf{Perfil Tático e Parâmetros Base} \\
+\hline
+Tartaruga de Couro & Custo 200 conchas; dano 60; alcance 4,0; cadência balanceada. Dispara projéteis de alto impacto direcionados a alvos prioritários de grande resistência. \\
+\hline
+Tartaruga de Pente & Custo 100 conchas; dano base 20; alcance 2,5; cadência rápida. Implementa mecânica de acerto crítico, duplicando o dano causado a cada quinto ataque consecutivo. \\
+\hline
+Tartaruga Verde & Custo planejado de 50 conchas; dano 10; alcance 2,0. Unidade defensiva básica de baixo custo, voltada para a contenção inicial nas primeiras ondas. \\
+\hline
+\end{tabularx}}
 
 Os tipos de resíduos planejados compreendem a \texttt{GarrafaPet} (resistência intermediária e deslocamento moderado), a \texttt{RedeFantasma} (elevada resistência mecânica e velocidade reduzida) e o \texttt{Microplastico} (baixa resistência, porém velocidade acelerada de travessia). A proporção de cada tipo varia conforme a progressão da partida, demandando adaptação contínua da estratégia defensiva do jogador.
 
@@ -131,7 +150,9 @@ O ciclo operacional da partida divide-se em quatro fases principais:
 \section*{3. Diagrama de Classes -- Subsistema de Combate}
 O diagrama a seguir sintetiza a arquitetura do subsistema de combate, evidenciando as relações de herança, abstração e associação entre as classes já implementadas na primeira etapa e as extensões planejadas para a conclusão do jogo. Construtores e métodos auxiliares foram omitidos para favorecer a clareza visual.
 
-\begin{center}\begin{tikzpicture}[x=0.98pt,y=-0.98pt,font=\scriptsize]
+\begin{center}
+\resizebox{0.92\textwidth}{!}{%
+\begin{tikzpicture}[x=0.98pt,y=-0.98pt,font=\scriptsize]
 \path[use as bounding box] (0,0) rectangle (500,550);
 \draw[-{Triangle[open,length=8pt,width=7pt]}] (77,150) -- (77,125) -- (210,125) -- (210,105);
 \draw[-{Triangle[open,length=8pt,width=7pt]}] (422,150) -- (422,125) -- (285,125) -- (285,105);
@@ -216,8 +237,8 @@ O diagrama a seguir sintetiza a arquitetura do subsistema de combate, evidencian
 \node[anchor=north,inner sep=0pt] at (422.5,484) {\textbf{Microplastico (planejado)}};
 \draw (345,501) -- (500,501);
 \draw (345,509) -- (500,509);
-\node[anchor=north west,inner sep=0pt] at (350,515) {+ atualizar()};
-\end{tikzpicture}\end{center}
+\end{tikzpicture}}
+\end{center}
 
 O triângulo com preenchimento em branco indica relação de herança (generalização/especialização). O sinal $-$ representa atributo privado e $+$ indica método público. A classe \texttt{TorreTartaruga} mantém uma coleção de \texttt{Projetil}; cada projétil referencia uma instância de \texttt{InimigoLixo} como alvo de sua trajetória. Os atributos de vida pertencem à hierarquia de \texttt{InimigoLixo}, enquanto a classe abstrata \texttt{Entidade} encapsula posicionamento bidimensional e estado de atividade no mapa.
 
@@ -242,7 +263,7 @@ A coordenação da execução e a interação com o usuário são organizadas de
 \draw[-] (200,355) -- (200,380) -- (105,380) -- (105,420);
 
 \draw[fill=gray!5] (30,0) rectangle (220,75);
-\node[anchor=north,inner sep=0pt] at (125,4) {\textbf{InterfaceMenu / Ranking}};
+\node[anchor=north,inner sep=0pt] at (125,4) {\textbf{TelaMenuView / Ranking (GUI)}};
 \draw (30,21) -- (220,21);
 \draw (30,29) -- (220,29);
 \node[anchor=north west,inner sep=0pt] at (35,35) {+ exibirMenu()};
@@ -250,7 +271,7 @@ A coordenação da execução e a interação com o usuário são organizadas de
 \node[anchor=north west,inner sep=0pt] at (35,57) {+ lerOpcaoUsuario()};
 
 \draw[fill=gray!5] (280,0) rectangle (470,75);
-\node[anchor=north,inner sep=0pt] at (375,4) {\textbf{InterfaceJogo (Terminal / GUI)}};
+\node[anchor=north,inner sep=0pt] at (375,4) {\textbf{TelaJogoView (GUI)}};
 \draw (280,21) -- (470,21);
 \draw (280,29) -- (470,29);
 \node[anchor=north west,inner sep=0pt] at (285,35) {+ renderizarEstado()};
@@ -320,7 +341,7 @@ A coordenação da execução e a interação com o usuário são organizadas de
 \node[anchor=north west,inner sep=0pt] at (350,477) {(estendem Exception)};
 \end{tikzpicture}\end{center}
 
-Seta tracejada indica relação de uso ou dependência funcional; linha contínua expressa associação estrutural. A camada de apresentação é representada de forma flexível pelas interfaces de menu e de jogo, operando como interface em linha de comando ou gráfica. O \texttt{GameLoop} gerencia o estado da partida associando-se a \texttt{Jogador}, \texttt{Mapa} e \texttt{WaveService}. O serviço \texttt{LojaService} valida posições e saldo antes de efetivar modificações nas instâncias do modelo.
+Seta tracejada indica relação de uso ou dependência funcional; linha contínua expressa associação estrutural. A camada de apresentação é representada por uma interface gráfica simples (JavaFX ou Swing), eliminando interações por terminal e proporcionando navegação intuitiva por telas e botões funcionais. O \texttt{GameLoop} gerencia o estado da partida associando-se a \texttt{Jogador}, \texttt{Mapa} e \texttt{WaveService}. O serviço \texttt{LojaService} valida posições e saldo antes de efetivar modificações nas instâncias do modelo.
 
 \clearpage
 \section*{5. Diagrama de Classes -- Persistência de Dados}
@@ -391,23 +412,68 @@ O fluxo operacional do jogo é estruturado de maneira simples e direta, cobrindo
 \end{enumerate}
 
 \subsection*{Aplicação dos Pilares da Orientação a Objetos}
-A arquitetura do software apoia-se rigorosamente nos quatro pilares fundamentais da Programação Orientada a Objetos:
+A arquitetura do software apoia-se rigorosamente nos conceitos fundamentais da Programação Orientada a Objetos:
 \begin{itemize}
-    \item \textbf{Abstração:} identificada nas classes base \texttt{Entidade}, \texttt{TorreTartaruga} e \texttt{InimigoLixo}, que representam os conceitos essenciais do jogo e isolam detalhes específicos de movimentação e combate.
-    \item \textbf{Herança:} manifestada na derivação das espécies concretas de tartarugas (\texttt{TartarugaDeCouro}, \texttt{TartarugaDePente} e \texttt{TartarugaVerde}) e tipos de dejetos marinhos, viabilizando o reuso de código e a extensão natural de atributos estruturais.
-    \item \textbf{Polimorfismo:} empregado no método abstrato \texttt{atacar(InimigoLixo)}, permitindo que cada subclasse de torre execute sua própria lógica de ataque (disparos pesados lentos versus acertos críticos por contagem de disparos), sem que o controlador precise conhecer a espécie concreta instanciada.
-    \item \textbf{Encapsulamento:} concretizado na proteção estrita de todos os atributos críticos (como coordenadas, integridade, custo e pontuação) sob o modificador \texttt{private}, com alterações intermediadas exclusivamente por métodos de acesso e mutação munidos de validação de estado.
-    \item \textbf{Tratamento de Exceções:} criação das classes de exceção \texttt{PosicaoInvalidaException} e \texttt{RecursosInsuficientesException}, que asseguram a integridade das regras da partida ao impedir construções fora dos limites da malha ou compras sem saldo suficiente.
+    \item \textbf{Abstração (Classes Abstratas e Interfaces):} Concretizada nas classes base \texttt{Entidade}, \texttt{TorreTartaruga} e \texttt{InimigoLixo}, que definem contratos fundamentais de estado e comportamento balístico sem acoplar a implementações finais, bem como no uso da interface nativa \texttt{Comparable} em \texttt{RegistroRanking}.
+    \item \textbf{Herança (\textit{is-a}):} Utilização de especialização hierárquica através de \texttt{extends} para as diferentes espécies de defensores (\texttt{TartarugaDeCouro}, \texttt{TartarugaDePente} e \texttt{TartarugaVerde}) e dejetos (\texttt{GarrafaPet}, \texttt{RedeFantasma}), compartilhando atributos vitais e de posicionamento.
+    \item \textbf{Composição (\textit{has-a}):} Emprega-se a composição estrutural favorecendo o baixo acoplamento em diversos pontos críticos do sistema:
+    \begin{itemize}
+        \item \texttt{TorreTartaruga} \textit{tem-uma} coleção de projéteis ativos (\texttt{List<Projetil>});
+        \item \texttt{GerenciadorRanking} \textit{tem-uma} lista de recordes de pontuação (\texttt{List<RegistroRanking>});
+        \item \texttt{Projetil} \textit{tem-um} alvo do tipo \texttt{InimigoLixo} que persegue até o impacto.
+    \end{itemize}
+    \item \textbf{Polimorfismo e Ligação Tardia:} Manifestado nas chamadas ao método abstrato \texttt{atacar(InimigoLixo)}, onde cada espécie concreta de tartaruga executa dinamicamente seu algoritmo de disparo (dano concentrado versus contagem para acerto crítico), sem que o despachante precise averiguar a subclasse em tempo de compilação.
+    \item \textbf{Sobrescrita (\textit{Override}) versus Sobrecarga (\textit{Overload}):}
+    \begin{itemize}
+        \item \textit{Sobrescrita (\texttt{@Override}):} Modificação de comportamento de métodos herdados, como \texttt{atualizar()} em \texttt{TorreTartaruga} e \texttt{Projetil}, e \texttt{compareTo(RegistroRanking)} para inversão da ordenação natural;
+        \item \textit{Sobrecarga (\textit{Overload}):} Construtores com assinaturas e listas de parâmetros distintas em \texttt{Entidade} (\texttt{Entidade()} padrão versus \texttt{Entidade(posX, posY)} parametrizado), permitindo instanciação flexível no catálogo de compras antes do posicionamento em malha.
+    \end{itemize}
+    \item \textbf{Encapsulamento e Modularidade:} Todos os atributos de integridade, custo, dano e coordenadas foram declarados sob modificadores de acesso restrito (\texttt{private}), com acesso exclusivamente controlado por \textit{getters} e \textit{setters} munidos de validação.
+    \item \textbf{Tratamento de Exceções:} Classes de exceção de domínio personalizadas (\texttt{PosicaoInvalidaException} e \texttt{RecursosInsuficientesException}) que impedem jogadas ilegais ou inconsistências de saldo através de blocos \texttt{try/catch}.
 \end{itemize}
 
-\subsection*{Módulos do Sistema e Organização Arquitetural}
-O sistema foi estruturado em quatro módulos técnicos coesos, minimizando o acoplamento entre domínio, regras e visualização:
-\begin{enumerate}
-    \item \textbf{Módulo de Entidades e Combate:} agrega as classes do modelo físico do jogo (\texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{TartarugaDeCouro}, \texttt{TartarugaDePente}, \texttt{TartarugaVerde}, \texttt{InimigoLixo} e \texttt{Projetil}).
-    \item \textbf{Módulo de Lógica e Partida:} reúne os componentes responsáveis pelo estado da partida, malha do tabuleiro, progressão de ondas e economia (\texttt{Mapa}, \texttt{Jogador}, \texttt{LojaService}, \texttt{WaveService} e \texttt{GameLoop}).
-    \item \textbf{Módulo de Persistência e Ranking:} engloba a gestão e serialização dos registros de desempenho em memória e em arquivo (\texttt{RegistroRanking}, \texttt{GerenciadorRanking}, \texttt{GerenciadorPersistencia} e \texttt{DadosPartida}).
-    \item \textbf{Módulo de Apresentação e Controle:} compreende o mediador \texttt{GameController} e as interfaces de visualização e captura de ações do usuário, adaptáveis para modo terminal ou interface gráfica.
-\end{enumerate}
+\subsection*{Estrutura de Pacotes da Aplicação}
+Em conformidade com a convenção modular exigida na disciplina, o código-fonte foi distribuído nos seguintes pacotes:
+\begin{itemize}
+    \item \texttt{br.ufv.ccf313.projeto}: Contém a classe executável \texttt{Main};
+    \item \texttt{br.ufv.ccf313.projeto.model}: Entidades e modelos de domínio (\texttt{Entidade}, \texttt{TorreTartaruga}, \texttt{TartarugaDeCouro}, \texttt{TartarugaDePente}, \texttt{InimigoLixo}, \texttt{Projetil}, \texttt{RegistroRanking});
+    \item \texttt{br.ufv.ccf313.projeto.service}: Regras de negócio e serviços (\texttt{GerenciadorRanking}, \texttt{GameLoopService}, \texttt{LojaService}, \texttt{WaveService});
+    \item \texttt{br.ufv.ccf313.projeto.repository}: Camada de persistência física em arquivos de texto plano;
+    \item \texttt{br.ufv.ccf313.projeto.controller}: Mediação de comandos entre a interface e os serviços de domínio;
+    \item \texttt{br.ufv.ccf313.projeto.view}: Classes da interface gráfica do usuário (planejada em JavaFX / Swing);
+    \item \texttt{br.ufv.ccf313.projeto.test}: Baterias de testes unitários automatizados em JUnit.
+\end{itemize}
+
+\subsection*{Divisão de Responsabilidades da Equipe}
+A Tabela~\ref{tab:responsaveis} detalha a distribuição das atribuições entre os integrantes do grupo, garantindo contribuições colaborativas em módulos específicos:
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|p{0.24\textwidth}|p{0.25\textwidth}|X|}
+\hline
+\textbf{Integrante} & \textbf{Módulo de Atuação} & \textbf{Classes / Responsabilidades Principais} \\
+\hline
+1. Lethícia Gonçalves da Silva & Base do Combate & Cria a classe abstrata \texttt{Entidade.java} e a lógica matemática de posições e colisões no mapa (\texttt{CollisionService.java}). \\
+\hline
+2. Tomás Viana Resende & Tartarugas / Torres & Cria a classe abstrata \texttt{TorreTartaruga.java}, tipos de tartarugas (\texttt{TartarugaDeCouro}, \texttt{TartarugaDePente}, \texttt{TartarugaVerde}), projéteis e mecânica de upgrades. \\
+\hline
+3. Bruna Lima Ribeiro & Lixos / Inimigos & Cria a classe abstrata \texttt{InimigoLixo.java} e os tipos de lixo marinho (\texttt{GarrafaPet}, \texttt{RedeFantasma}, \texttt{Microplastico}) com escalonamento de vida por round. \\
+\hline
+4. Helena Santos Perez & Motor do Jogo \& Exceções & Cria o loop principal da partida (\texttt{GameLoop.java}), controle das ondas de inimigos (\texttt{WaveService.java}) e as exceções customizadas (\texttt{PosicaoInvalidaException}, \texttt{RecursosInsuficientesException}). \\
+\hline
+5. Otávio Soares Pedroso & Mapa \& Jogador & Cria a lógica do mapa/caminho do lixo (\texttt{Mapa.java}, \texttt{CelulaGrid.java}), gestão de moedas, vida da praia (\texttt{Jogador.java}) e as regras de compra da loja (\texttt{LojaService.java}). \\
+\hline
+6. Pedro Mendes Gonzaga & Persistência \& Arquivos & Cria as classes de persistência para salvar e carregar dados em arquivos de texto (saves de partidas, ranking e configurações). \\
+\hline
+7. Marina Larissa Xavier Soares & Interface da Partida \& Controller & Cria a tela gráfica principal do jogo (JavaFX/Swing) com a renderização do mapa, animações e cliques do mouse (\texttt{GameController.java}, \texttt{TelaJogoView.java}). \\
+\hline
+8. Caroline Melo Silva & Menus \& Testes Unitários & Cria as telas de menu/ranking do sistema (\texttt{TelaMenuView.java}, \texttt{TelaRankingView.java}) e escreve a suíte de testes com JUnit para validação das regras. \\
+\hline
+\end{tabularx}
+\caption{Quadro de divisão de responsabilidades da equipe.}
+\label{tab:responsaveis}
+\end{table}
 
 \clearpage
 \section*{7. Planejamento das 5 Funcionalidades Completas (CRUD)}
@@ -492,11 +558,11 @@ O planejamento para a segunda etapa do projeto contempla o desenvolvimento e a i
     \item \textbf{Conclusão das Unidades de Domínio:} implementação da especialização inicial \texttt{TartarugaVerde} e das classes concretas de dejetos (\texttt{GarrafaPet}, \texttt{RedeFantasma} e \texttt{Microplastico}), calibrando seus atributos de movimentação e resistência.
     \item \textbf{Construção do Ciclo de Jogo e Ondas:} desenvolvimento do motor contínuo (\texttt{GameLoop}) e do despachante \texttt{WaveService}, integrando a geração temporal dos resíduos, a navegação pelo trajeto da malha e a sincronização do avanço de projéteis e verificação de colisões.
     \item \textbf{Regras Econômicas e Tabuleiro:} integração das classes \texttt{Mapa}, \texttt{Jogador} e \texttt{LojaService}, com validação rigorosa de posições e recursos via exceções de domínio (\texttt{PosicaoInvalidaException} e \texttt{RecursosInsuficientesException}).
-    \item \textbf{Camada de Interface com o Usuário:} construção da camada de apresentação (em modo texto para terminal ou interface gráfica simplificada) mediada por \texttt{GameController}, garantindo a exibição do mapa e o controle de ações do jogador.
+    \item \textbf{Camada de Interface com o Usuário:} construção da interface gráfica simples (JavaFX / Swing) mediada por \texttt{GameController}, garantindo a renderização do mapa, animações visuais e o controle de ações do jogador via cliques de mouse.
     \item \textbf{Persistência Simplificada em Arquivo:} desenvolvimento da classe \texttt{GerenciadorPersistencia} para gravação e leitura de recordes e recuperação de partidas interrompidas a partir de arquivos de texto locais.
 \end{enumerate}
 
 \subsection*{Considerações Finais}
-A abordagem modular e os fundamentos de Orientação a Objetos adotados asseguram viabilidade técnica para a conclusão do projeto dentro do cronograma da disciplina. A arquitetura estabelecida combina rigor conceitual com flexibilidade operacional, permitindo que a aplicação seja executada tanto em ambiente de console quanto com recursos visuais, mantendo o objetivo central de sensibilização ambiental por meio da tecnologia.
+A abordagem modular e os fundamentos de Orientação a Objetos adotados asseguram viabilidade técnica para a conclusão do projeto dentro do cronograma da disciplina. A arquitetura estabelecida combina rigor conceitual com flexibilidade operacional, permitindo que a aplicação final ofereça uma experiência de uso intuitiva e atrativa por meio de interface gráfica, mantendo o objetivo central de sensibilização ambiental por meio da tecnologia.
 
 \end{document}
