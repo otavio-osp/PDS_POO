@@ -1,9 +1,10 @@
 package br.ufv.ccf313.projeto;
 
 import br.ufv.ccf313.projeto.model.RegistroRanking;
-import br.ufv.ccf313.projeto.model.TartarugaDeCouro;
-import br.ufv.ccf313.projeto.model.TartarugaDePente;
-import br.ufv.ccf313.projeto.model.TorreTartaruga;
+import br.ufv.ccf313.projeto.model.tartaruga.TartarugaDeCouro;
+import br.ufv.ccf313.projeto.model.tartaruga.TartarugaDePente;
+import br.ufv.ccf313.projeto.model.tartaruga.TartarugaVerde;
+import br.ufv.ccf313.projeto.model.tartaruga.TorreTartaruga;
 import br.ufv.ccf313.projeto.service.GerenciadorRanking;
 import java.util.List;
 
@@ -20,9 +21,11 @@ public class Main {
         System.out.println("--- 1. Instanciacao de Torres (Polimorfismo e Heranca) ---");
         TorreTartaruga torre1 = new TartarugaDeCouro(2, 3);
         TorreTartaruga torre2 = new TartarugaDePente(4, 5);
+        TorreTartaruga torre3 = new TartarugaVerde(1, 1);
 
         System.out.println("Torre 1: " + torre1);
         System.out.println("Torre 2: " + torre2);
+        System.out.println("Torre 3: " + torre3);
         System.out.println();
 
         // 2. Demonstracao da Funcionalidade Completa (CRUD de Ranking)
@@ -56,10 +59,6 @@ public class Main {
         RegistroRanking pedroAtualizado = ranking.buscarRegistro("Pedro");
         System.out.println("  Novo registro de Pedro: " + pedroAtualizado);
 
-        System.out.println("\n[READ] Novo Top 1 apos atualizacao:");
-        List<RegistroRanking> novoTop = ranking.getTopRegistros(1);
-        System.out.println("  1# " + novoTop.get(0));
-
         // [D] DELETE - Remocao de um registro
         System.out.println("\n[DELETE] Removendo registro de 'Lethicia'...");
         boolean removido = ranking.removerRegistro("Lethicia");
@@ -69,5 +68,15 @@ public class Main {
         System.out.println("\n==========================================================");
         System.out.println(" Demonstracao concluida com sucesso!");
         System.out.println("==========================================================");
+
+        // INTEGRACAO PENDENTE (Carol - Botoes/Telas | Pedro - Persistencia):
+        // Quando o jogador perder (vida <= 0) ou vencer todas as waves, a tela de Game Over
+        // deve ser exibida pela Carol. Nesse momento, o GameLoop (ou equivalente) deve chamar:
+        //
+        //   GerenciadorRanking ranking = new GerenciadorRanking();
+        //   ranking.salvarPartida(jogador.getNome(), jogador.getScore(), jogador.getWaveAtual());
+        //
+        // Isso salva automaticamente a partida no arquivo data/ranking.txt.
+        // A tela de historico (Carol) deve chamar ranking.carregarDoArquivo() para exibir a lista.
     }
 }
