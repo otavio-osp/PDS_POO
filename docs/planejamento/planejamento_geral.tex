@@ -1,0 +1,367 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Pacotes Fundamentais ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{lmodern}
+\usepackage{array,tabularx}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+% --- Definição de Cores Institucionais ---
+\definecolor{ufvred}{HTML}{861D23}
+\definecolor{ufvyellow}{HTML}{C9A733}
+\definecolor{darkblue}{HTML}{1A365D}
+\definecolor{boxbg}{HTML}{F8FAFC}
+\definecolor{boxborder}{HTML}{CBD5E1}
+
+% --- Configuração de Hiperlinks ---
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue!80!black,
+  linkcolor=darkblue,
+  citecolor=darkblue
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\arraystretch}{1.25}
+
+% --- Cabeçalhos e Rodapés ---
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead{\small \textbf{UFV-Florestal} -- CCF313: Programação Orientada a Objetos}
+\rhead{\small Tartarugas vs. Lixo Marinho -- Planejamento}
+\lfoot{\small Documento de Alinhamento e Arquitetura}
+\rfoot{\small Página \thepage}
+
+% --- Estilização de Seções ---
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{darkblue}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{darkblue}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{ufvred}}{\thesubsubsection}{1em}{}
+
+% --- Caixa para Questionários Técnicos ---
+\newtcolorbox{perguntaBox}[1]{
+  colback=boxbg,
+  colframe=boxborder,
+  coltitle=darkblue,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2mm,
+  boxrule=0.8pt,
+  left=8pt,
+  right=8pt,
+  top=6pt,
+  bottom=6pt
+}
+
+\begin{document}
+
+% =============================================================================
+% CAPA FORMAL UFV
+% =============================================================================
+\begin{titlepage}
+  \centering
+  \vspace*{0.2cm}
+  {\fontsize{38}{42}\selectfont\sffamily U\textcolor{ufvred}{F}\textcolor{ufvyellow}{V}\par}
+  \vspace{0.2cm}
+  {\small SERVIÇO PÚBLICO FEDERAL -- MINISTÉRIO DA EDUCAÇÃO\par}
+  \vspace{0.15cm}
+  {\small UNIVERSIDADE FEDERAL DE VIÇOSA -- UFV\par}
+  \vspace{0.15cm}
+  {\small CAMPUS FLORESTAL\par}
+  \vspace{0.2cm}
+  {\small INSTITUTO DE CIÊNCIAS EXATAS E TECNOLÓGICAS\par}
+  \vspace{0.15cm}
+  {\small DEPARTAMENTO DE CIÊNCIA DA COMPUTAÇÃO\par}
+  \vspace{2.8cm}
+
+  {\Large\bfseries\color{darkblue} TRABALHO PRÁTICO DE POO -- ETAPA 2\par}
+  \vspace{0.3cm}
+  {\LARGE\bfseries Tartarugas vs. Lixo Marinho\par}
+  \vspace{0.2cm}
+  {\large\textit{Documento de Arquitetura, Divisão de Responsabilidades e Questionário Técnico Pré-Implementação}\par}
+  \vspace{0.8cm}
+
+  {\normalsize\textbf{Professor:} Philipe de Freitas Melo\par}
+  \vspace{0.15cm}
+  {\normalsize\textbf{Disciplina:} CCF313 -- Programação Orientada a Objetos\par}
+  \vspace{2.2cm}
+
+  \begin{flushright}
+    \small
+    Bruna Lima Ribeiro -- 6557\\[2pt]
+    Caroline Melo Silva -- 6595\\[2pt]
+    Helena Santos Perez -- 6564\\[2pt]
+    Lethícia Gonçalves da Silva -- 6571\\[2pt]
+    Marina Larissa Xavier Soares -- 6581\\[2pt]
+    Otávio Soares Pedroso -- 6593\\[2pt]
+    Pedro Mendes Gonzaga -- 6563\\[2pt]
+    Tomás Viana Resende -- 6556\\[2pt]
+  \end{flushright}
+
+  \vfill
+  {\normalsize Florestal -- MG}\\[3pt]
+  {\normalsize 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =============================================================================
+% 1. VISÃO GERAL DA ARQUITETURA
+% =============================================================================
+\section{Visão Geral da Arquitetura do Jogo}
+
+O jogo \textit{Tartarugas vs. Lixo Marinho} constitui um jogo eletrônico do gênero \textit{Tower Defense} bidimensional desenvolvido sob o paradigma de Orientação a Objetos na linguagem Java. 
+
+A mecânica central da partida opera sobre uma **malha matricial discreta** ($N \times M$), onde dejetos marinhos (inimigos) navegam ao longo de um canal pré-estabelecido de rio/mar, partindo de um ponto inicial de nascente (\textit{spawn}) e avançando em direção à praia (ponto final). Ao longo do trajeto, o jogador deve alocar estrategicamente espécies de tartarugas marinhas (torres de defesa) em células de terra adjacentes ao rio para neutralizar os dejetos antes que estes atinjam a orla litorânea.
+
+\subsection{Ciclo de Execução da Rodada (Tick de Combate)}
+A execução de cada rodada lógica do jogo processa-se em quatro fases ordenadas e síncronas:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Fase 1 -- Detecção e Disparo das Tartarugas:} Para cada tartaruga ativa no tabuleiro, o sistema varre as células de água que se encontram dentro do seu raio de alcance ($Range$). A tartaruga prioriza sempre o lixo que se encontra **mais avançado** na trilha do rio e executa o número de ataques permitido pela sua cadência ($Velocidade$).
+  \item \textbf{Fase 2 -- Resolução de Dano em Área na Célula:} Como regra de simplificação acordada pela equipe, se mais de um lixo ocupar simultaneamente a mesma célula-alvo, **ambos sofrem o impacto do ataque da tartaruga**. Caso a vida de algum lixo atinja zero ($HP \le 0$), a entidade é expurgada do mapa e seu valor em conchas e pontos de experiência (XP) é creditado ao jogador.
+  \item \textbf{Fase 3 -- Movimentação dos Resíduos:} Os dejetos marinhos sobreviventes avançam ao longo das coordenadas da trilha de acordo com sua taxa individual de deslocamento (células por rodada).
+  \item \textbf{Fase 4 -- Cômputo de Dano na Praia:} Qualquer resíduo que alcance a célula final da praia é removido do tabuleiro, e seu atributo de dano é subtraído diretamente dos pontos de integridade da praia do jogador.
+\end{enumerate}
+
+% =============================================================================
+% 2. MATRIZ DE RESPONSABILIDADES
+% =============================================================================
+\section{Matriz de Responsabilidades da Equipe}
+
+A distribuição modular foi planejada para assegurar alta coesão e baixo acoplamento entre os subsistemas, dividindo o escopo entre os oito integrantes:
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|p{0.22\textwidth}|p{0.25\textwidth}|X|}
+\hline
+\rowcolor{gray!15}
+\textbf{Integrante} & \textbf{Módulo de Atuação} & \textbf{Responsabilidade Principal} \\
+\hline
+\textbf{Otávio Soares} & Mapa \& Jogador & Criação da malha matricial, caminho do rio, células clicáveis, estado do jogador (vida da praia, conchas, wave e score acumulado). \\
+\hline
+\textbf{Tomás Viana (Tom)} & Tartarugas (Torres) & Implementação das 3 espécies de tartarugas, custos de aquisição, balanceamento de dano/alcance/cadência e lógica de upgrades. \\
+\hline
+\textbf{Bruna Lima} & Inimigos (Lixo Marinho) & Implementação dos tipos de dejeto, atributos de vida e velocidade na matriz, buffs por wave, dano à praia e drops de conchas e XP. \\
+\hline
+\textbf{Lethícia Gonçalves} & Sistema de Combate & Orquestração lógica entre Mapa, Torres e Lixos: checagem de alcance, priorização do alvo da frente, resolução de dano e acerto simultâneo na célula. \\
+\hline
+\textbf{Helena Santos} & Motor de Ondas (Waves) & Gerenciamento do ciclo de waves, quantidade e composição de dejetos por onda, temporização de spawn, multiplicadores de round e detecção de vitória. \\
+\hline
+\textbf{Pedro Mendes} & Persistência \& Histórico & Gravação e leitura de dados em arquivo `.txt`, formatação dos registros, tratamento de exceções de I/O e ordenação de ranking por pontuação. \\
+\hline
+\textbf{Marina Larissa} & Interface Gráfica \& Sprites & Renderização do tabuleiro e sprites das entidades; criação de animações visuais (pulso de escala no ataque, flash/encolhimento no hit e lixo boiando). \\
+\hline
+\textbf{Caroline Melo} & Menus, Modais \& Telas & Construção da interface com o usuário: alternância de telas (Menu, Jogo, Ranking), botões de ação e modais interativos de compra, upgrade e alertas. \\
+\hline
+\end{tabularx}
+\caption{Quadro de divisão de módulos da equipe de desenvolvimento.}
+\label{tab:divisao}
+\end{table}
+
+% =============================================================================
+% 3. CONTRATOS DE COMUNICAÇÃO ENTRE MÓDULOS
+% =============================================================================
+\section{Contratos de Comunicação entre Módulos (Interfaces)}
+
+Para viabilizar a implementação paralela e independente sem bloqueios de compilação, definem-se as seguintes assinaturas obrigatórias:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Otávio (Mapa) $\leftrightarrow$ Lethícia (Combate):}
+  \begin{itemize}
+    \item \texttt{Mapa.getCaminhoOrdenado() $\rightarrow$ List<Coordenada>}: retorna a sequência ordenada de células do rio da nascente até a praia.
+    \item \texttt{Mapa.getCelulasAoAlcance(Coordenada centro, int range) $\rightarrow$ List<CelulaGrid>}: retorna as células cobertas pelo raio de visão da torre.
+    \item \texttt{Mapa.getLixosNaCelula(int x, int y) $\rightarrow$ List<InimigoLixo>}: retorna todos os resíduos presentes na coordenada informada.
+  \end{itemize}
+
+  \item \textbf{Tomás (Tartarugas) $\leftrightarrow$ Otávio (Jogador / Economia):}
+  \begin{itemize}
+    \item \texttt{TorreTartaruga.getCustoCompra() $\rightarrow$ int}: valor em conchas para aquisição inicial.
+    \item \texttt{TorreTartaruga.getCustoUpgrade() $\rightarrow$ int}: valor em conchas para evoluir de nível.
+    \item \texttt{Jogador.gastarConchas(int valor) $\rightarrow$ boolean}: deduz o saldo de conchas caso haja saldo disponível; retorna falso em caso contrário.
+  \end{itemize}
+
+  \item \textbf{Bruna (Inimigos) $\leftrightarrow$ Lethícia (Combate) $\leftrightarrow$ Otávio (Jogador):}
+  \begin{itemize}
+    \item \texttt{InimigoLixo.receberDano(int dano) $\rightarrow$ boolean}: aplica dano à vida do lixo e retorna verdadeiro se o inimigo for abatido.
+    \item \texttt{InimigoLixo.getValorRecompensa() $\rightarrow$ int}: conchas transferidas ao jogador na eliminação.
+    \item \texttt{InimigoLixo.getXpRecompensa() $\rightarrow$ int}: pontos somados ao score geral do jogador.
+    \item \texttt{Jogador.receberDano(int dano) $\rightarrow$ void}: deduz a integridade da praia ao término do trajeto.
+  \end{itemize}
+
+  \item \textbf{Pedro (Persistência) $\leftrightarrow$ Caroline (Telas):}
+  \begin{itemize}
+    \item \texttt{GerenciadorPersistencia.salvarPartida(RegistroRanking registro) $\rightarrow$ void}: anexa a partida no arquivo texto.
+    \item \texttt{GerenciadorPersistencia.carregarRanking() $\rightarrow$ List<RegistroRanking>}: lê o arquivo e retorna os registros ordenados por score.
+  \end{itemize}
+\end{itemize}
+
+\newpage
+% =============================================================================
+% 4. CADERNOS INDIVIDUAIS DE PLANEJAMENTO
+% =============================================================================
+\section{Cadernos Individuais de Planejamento e Questionários Técnicos}
+
+A seguir, cada integrante dispõe de seu caderno técnico de trabalho, contendo suas tarefas essenciais e o questionário que deve ser formalmente respondido antes do início da codificação.
+
+% -----------------------------------------------------------------------------
+% OTÁVIO
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 1: Otávio Soares Pedroso (Mapa \& Jogador)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Otávio}
+\begin{enumerate}
+  \item \textbf{Dimensão da Matriz do Tabuleiro:} Qual será a grade oficial da malha? (Sugestão: $10 \times 12$ ou $12 \times 16$ células para acomodar caminho sinuoso e espaços de terra).
+  \item \textbf{Estrutura de Dados do Caminho do Rio:} O trajeto será estruturado como uma lista fixa de coordenadas indexadas (\texttt{List<Coordenada>})? \textit{Nota: Esta abordagem é fortemente recomendada, pois o índice da célula na lista indica diretamente qual lixo está mais à frente.}
+  \item \textbf{Células Interativas de Terra:} Todas as células que não são rio estarão aptas a receber tartarugas, ou existirão pontos específicos (slots pré-determinados)?
+  \item \textbf{Parâmetros Iniciais do Jogador:}
+  \begin{itemize}
+    \item Vida inicial da praia: 20 pontos de integridade?
+    \item Saldo inicial de conchas: 100 conchas (suficiente para comprar 2 torres básicas)?
+  \end{itemize}
+  \item \textbf{Gatilho de Derrota:} O que ocorre imediatamente quando a vida da praia atinge zero? A malha congela e chama a tela de Game Over?
+\end{enumerate}
+\end{perguntaBox}
+
+% -----------------------------------------------------------------------------
+% TOMÁS (TOM)
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 2: Tomás Viana Resende (Tartarugas \& Upgrades)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Tomás}
+\begin{enumerate}
+  \item \textbf{Tabela de Balanceamento Inicial (Nível 1):} Confirmar os valores de atributos das 3 espécies:
+  \begin{itemize}
+    \item \textit{Tartaruga Verde (Econômica):} Custo: 40 conchas | Dano: 15 | Range: 2 células | Velocidade: 1 ataque/rodada.
+    \item \textit{Tartaruga de Pente (Atiradora Rápida):} Custo: 80 conchas | Dano: 8 | Range: 3 células | Velocidade: 2 ataques/rodada.
+    \item \textit{Tartaruga de Couro (Dano Massivo):} Custo: 120 conchas | Dano: 35 | Range: 1 célula | Velocidade: 0.5 (1 ataque a cada 2 rodadas).
+  \end{itemize}
+  \item \textbf{Cálculo Geométrico do Range:} O alcance será calculado por distância de Chebyshev (quadrado concêntrico $\max(|x_1-x_2|, |y_1-y_2|) \le R$) ou distância euclidiana?
+  \item \textbf{Progressão de Upgrades:} Quantos níveis cada tartaruga pode alcançar (ex: Nível Máximo 3)? Qual o acréscimo específico de dano, alcance e cadência em cada nível?
+  \item \textbf{Mecânica de Venda de Torres:} O jogador poderá vender uma tartaruga alocada para recuperar 50\% do valor investido?
+\end{enumerate}
+\end{perguntaBox}
+
+% -----------------------------------------------------------------------------
+% BRUNA
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 3: Bruna Lima Ribeiro (Inimigos -- Lixo Marinho)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Bruna}
+\begin{enumerate}
+  \item \textbf{Perfis dos 3 Tipos de Lixo:} Definir os parâmetros base de combate:
+  \begin{itemize}
+    \item \textit{Garrafa PET (Padrão):} Vida: 40 HP | Velocidade: 1 célula/rodada | Dano na praia: 2 | Drop: 10 conchas e 15 XP.
+    \item \textit{Microplástico (Rápido/Frágil):} Vida: 18 HP | Velocidade: 2 células/rodada | Dano na praia: 1 | Drop: 15 conchas e 25 XP.
+    \item \textit{Rede Fantasma (Tanque):} Vida: 120 HP | Velocidade: 0 (move 1 célula a cada 2 rodadas) | Dano na praia: 5 | Drop: 35 conchas e 50 XP.
+  \end{itemize}
+  \item \textbf{Lógica de Movimento com Velocidade 2:} Se um dejeto move 2 células por rodada, ele pode passar direto por uma tartaruga de range 1 sem ser atacado, ou o combate ocorre a cada célula percorrida?
+  \item \textbf{Multiplicadores por Wave (Escalonamento):} Qual será a taxa de crescimento dos atributos a cada rodada (ex: vida aumenta em $+15\%$ a cada wave)?
+  \item \textbf{Tratamento de Chegada ao Destino:} Ao atingir a praia, o lixo é descartado imediatamente sem conceder conchas ou experiência?
+\end{enumerate}
+\end{perguntaBox}
+
+% -----------------------------------------------------------------------------
+% LETHÍCIA
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 4: Lethícia Gonçalves da Silva (Sistema de Combate)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Lethícia}
+\begin{enumerate}
+  \item \textbf{Identificação do Alvo Mais Avançado:} A priorização utilizará o índice da célula na lista do caminho como chave de comparação (maior índice = mais perto da praia)?
+  \item \textbf{Resolução de Múltiplos Alvos na Mesma Célula:} Como será feita a iteração para que todos os dejetos empilhados na mesma coordenada sofram o dano simultaneamente?
+  \item \textbf{Múltiplos Disparos por Rodada:} Se uma tartaruga possui cadência de 2 ataques e o primeiro ataque elimina o dejeto alvo, o segundo disparo é redirecionado de imediato ao próximo lixo da fila?
+  \item \textbf{Sincronização de Efeitos Visuais:} Como o serviço de combate notificará a camada gráfica de Marina para acionar as animações de hit sem acoplar a lógica à interface?
+\end{enumerate}
+\end{perguntaBox}
+
+% -----------------------------------------------------------------------------
+% HELENA
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 5: Helena Santos Perez (Motor de Ondas / GameLoop)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Helena}
+\begin{enumerate}
+  \item \textbf{Composição das 10 Ondas:} Definir a lista fixa de inimigos que surgirão em cada onda da partida, garantindo curva suave de aprendizado.
+  \item \textbf{Intervalo Temporal de Spawn:} Qual será o intervalo entre a entrada de um lixo e o próximo na nascente (ex: a cada 1 segundo ou a cada 2 rodadas lógicas)?
+  \item \textbf{Transição entre Waves:} Ao exterminar todos os lixos de uma wave, o jogo aguarda o clique manual do jogador no botão ``Iniciar Próxima Onda'' (Fase de Loja e Preparação) ou inicia automaticamente após contagem regressiva?
+  \item \textbf{Bônus de Vitória de Wave:} O jogador recebe conchas adicionais ao zerar cada onda (ex: $+50$ conchas)?
+\end{enumerate}
+\end{perguntaBox}
+
+% -----------------------------------------------------------------------------
+% PEDRO
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 6: Pedro Mendes Gonzaga (Persistência \& Ranking)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Pedro}
+\begin{enumerate}
+  \item \textbf{Formatação do Arquivo Texto:} Será adotado o formato padronizado delimitado por ponto e vírgula (\texttt{Nome;Pontuacao;WaveAlcancada;DataHora}) na pasta \texttt{data/ranking.txt}?
+  \item \textbf{Robustez e Tratamento de Exceções:} Como tratar arquivos ausentes ou corrompidos na inicialização (\texttt{IOException}, \texttt{NumberFormatException}) sem abortar a aplicação?
+  \item \textbf{Critério de Desempate:} Em caso de pontuações idênticas, o desempate privilegiará quem atingiu a maior wave ou quem realizou a partida primeiro?
+  \item \textbf{Integração com o Modelo Anterior:} Como a classe \texttt{RegistroRanking} já implementa a interface \texttt{Comparable}, a ordenação automática via \texttt{Collections.sort} está assegurada?
+\end{enumerate}
+\end{perguntaBox}
+
+% -----------------------------------------------------------------------------
+% MARINA
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 7: Marina Larissa Xavier Soares (Sprites \& Animações)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Marina}
+\begin{enumerate}
+  \item \textbf{Dimensões Gráficas do Tabuleiro:} Qual será a dimensão em pixels de cada célula da matriz (ex: $64 \times 64$ pixels) e a resolução da tela do jogo (ex: $1024 \times 768$)?
+  \item \textbf{Animação de Ataque da Tartaruga:} O pulso de escala visual ($1.0 \rightarrow 1.25 \rightarrow 1.0$) será controlado por temporizador em milissegundos ou contagem de frames?
+  \item \textbf{Feedback Visual de Dano no Lixo:} O efeito de flash vermelho e encolhimento momentâneo durará quantos frames antes de restaurar o sprite original?
+  \item \textbf{Fórmula de Flutuação do Lixo:} Aprovar a utilização da oscilação senoidal suave no eixo Y:
+  $$\Delta y = \sin(\text{tempo} \times 4) \times 3 \text{ pixels}$$
+\end{enumerate}
+\end{perguntaBox}
+
+% -----------------------------------------------------------------------------
+% CAROLINE
+% -----------------------------------------------------------------------------
+\subsection{Caderno Técnico 8: Caroline Melo Silva (Menus, Modais \& Telas)}
+
+\begin{perguntaBox}{Questões Técnicas a Serem Definidas por Caroline}
+\begin{enumerate}
+  \item \textbf{Padrão de Troca de Telas:} Utilização de \texttt{CardLayout} no container principal para chavear entre Menu, Jogo e Ranking sem abrir múltiplas janelas?
+  \item \textbf{Momento de Entrada do Nome do Jogador:} A identificação ocorrerá no Menu Principal antes de clicar em ``Jogar'' ou em tela final pós-partida?
+  \item \textbf{Interface de Modais de Compra e Upgrade:} Os modais serão janelas de diálogo flutuantes (\texttt{JDialog}) que pausam a partida, ou uma barra lateral fixa de loja sempre visível à direita?
+  \item \textbf{Alertas de Saldo Insuficiente:} Exibição de aviso com bloqueio de ação caso o jogador tente adquirir torres ou upgrades sem conchas suficientes.
+\end{enumerate}
+\end{perguntaBox}
+
+\newpage
+% =============================================================================
+% 5. CONCLUSÃO E DIRETRIZES FINAIS
+% =============================================================================
+\section{Diretrizes de Versionamento e Próximos Passos}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Versionamento Git:} Cada integrante deve criar uma branch individual a partir da \texttt{develop} seguindo o padrão estabelecido pelo Scrum Master.
+  \item \textbf{Preenchimento dos Cadernos:} Cada membro da equipe deve analisar seu questionário e responder aos pontos de decisão técnica.
+  \item \textbf{Integração Contínua:} Nenhuma alteração estrutural nas interfaces de comunicação descritas na Seção 3 poderá ser realizada sem prévio alinhamento com os integrantes responsáveis pelos módulos adjacentes.
+\end{itemize}
+
+\end{document}
+
