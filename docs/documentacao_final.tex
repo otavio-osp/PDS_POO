@@ -1,0 +1,127 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{lmodern}
+\usepackage{array,tabularx}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\renewcommand{\arraystretch}{1.3}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{0.2cm}
+{\fontsize{40}{44}\selectfont\sffamily U\textcolor[HTML]{861D23}{F}\textcolor[HTML]{C9A733}{V}\par}
+\vspace{0.2cm}
+{\small SERVIÇO PÚBLICO FEDERAL - MINISTÉRIO DA EDUCAÇÃO\par}
+\vspace{0.15cm}
+{\small UNIVERSIDADE FEDERAL DE VIÇOSA - UFV\par}
+\vspace{0.15cm}
+{\small CAMPUS FLORESTAL\par}
+\vspace{3.5cm}
+{\Large\bfseries Trabalho Prático - POO\par}
+\vspace{0.4cm}
+{\large\bfseries Tartarugas vs. Lixo Marinho\par}
+\vspace{0.2cm}
+{\normalsize Relatório Técnico - Entrega Final\par}
+\vspace{0.4cm}
+{\small\textbf{Professor:} Philipe de Freitas Melo\par}
+{\small\textbf{Disciplina:} CCF313 -- Programação Orientada a Objetos\par}
+\vspace{1.8cm}
+\begin{flushright}
+Bruna Lima Ribeiro [6557]\\[3pt]
+Caroline Melo Silva [6595]\\[3pt]
+Helena Santos Perez [6564]\\[3pt]
+Lethícia Gonçalves da Silva [6571]\\[3pt]
+Marina Larissa Xavier Soares [6581]\\[3pt]
+Otávio Soares Pedroso [6593]\\[3pt]
+Pedro Mendes Gonzaga [6563]\\[3pt]
+Tomás Viana Resende [6556]\\[3pt]
+\end{flushright}
+\vfill
+Florestal - MG\\[7pt]
+2026
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% =========================================================================
+% INÍCIO DO ESQUELETO DA DOCUMENTAÇÃO TÉCNICA FINAL (ITEM 3.5 DO EDITAL)
+% =========================================================================
+
+\section{Visão Geral e Proposta do Sistema}
+\textit{\textbf{O que colocar:} Apresentar brevemente o problema resolvido, o objetivo do jogo (Tower Defense de conscientização ambiental com 10 ondas), as regras principais (conchas, vidas da praia, vitória/derrota) e o link do repositório no GitHub.}
+
+\section{Arquitetura do Sistema e Divisão da Equipe}
+\textit{\textbf{O que colocar:} Explicar a organização modular em pacotes (\texttt{model}, \texttt{service}, \texttt{repository}, \texttt{controller}, \texttt{view}, \texttt{util}, \texttt{test}) destacando como a separação em camadas garante alta coesão e baixo acoplamento. Incluir a tabela de divisão de responsabilidades de cada um dos 8 integrantes.}
+
+\section{Modelagem do Sistema (Diagramas)}
+\textit{\textbf{O que colocar:} Inserir e explicar brevemente os diagramas atualizados que guiam a estrutura e o comportamento do sistema:}
+\begin{itemize}
+    \item \textbf{Diagrama de Casos de Uso:} Representar as ações do jogador (iniciar partida, comprar/evoluir/vender torre, pausar, salvar/carregar, consultar ranking).
+    \item \textbf{Diagramas de Classes:} Apresentar as hierarquias de combate, o ciclo de jogo/interface e a camada de persistência, evidenciando associações, heranças e dependências.
+\end{itemize}
+
+\section{Funcionalidades Implementadas (5 CRUDs Completos)}
+\textit{\textbf{O que colocar:} Detalhar cada uma das 5 funcionalidades completas exigidas pelo edital, explicando como funcionam e indicando exatamente em quais classes/pacotes estão implementadas as operações de \textbf{Create, Read, Update e Delete}:}
+\begin{enumerate}
+    \item \textbf{Gerenciamento de Ranking e Recordes} (\texttt{GerenciadorRanking} / \texttt{RegistroRanking})
+    \item \textbf{Gerenciamento de Torres no Tabuleiro} (\texttt{LojaService} / \texttt{Mapa})
+    \item \textbf{Gerenciamento de Jogador e Perfis} (\texttt{Jogador})
+    \item \textbf{Gerenciamento de Ondas de Resíduos} (\texttt{WaveService} / \texttt{Onda})
+    \item \textbf{Gerenciamento de Partidas Salvas} (\texttt{GerenciadorPersistencia} / \texttt{DadosPartida})
+\end{enumerate}
+
+\section{Aplicação dos Conceitos de Programação Orientada a Objetos}
+
+\subsection{Abstração e Herança}
+\begin{itemize}
+    \item \textbf{Hierarquia de Entidades e Defensores (\texttt{Entidade} $\rightarrow$ \texttt{TorreTartaruga}):} Explicar como a classe abstrata \texttt{Entidade} centraliza coordenadas e estado, enquanto \texttt{TorreTartaruga} define o contrato de combate especializado pelas subclasses concretas \texttt{TartarugaVerde}, \texttt{TartarugaDeCouro} e \texttt{TartarugaDePente} via \texttt{extends}.
+    \item \textbf{Hierarquia de Resíduos (\texttt{Entidade} $\rightarrow$ \texttt{InimigoLixo}):} Detalhar como \texttt{InimigoLixo} abstrai vida, velocidade e recompensa, sendo estendida por \texttt{GarrafaPet}, \texttt{RedeFantasma} e \texttt{Microplastico}.
+    \item \textbf{Interfaces (\texttt{Comparable}):} Apontar o uso da interface nativa \texttt{Comparable} em \texttt{RegistroRanking} para ordenação natural das pontuações.
+\end{itemize}
+
+\subsection{Polimorfismo, Sobrescrita (\texttt{@Override}) e Sobrecarga (\texttt{Overload})}
+\begin{itemize}
+    \item \textbf{Polimorfismo no Combate (\texttt{atacar()} e \texttt{atualizar()}):} Mostrar como o \texttt{GameLoop} e o \texttt{CollisionService} manipulam listas genéricas de \texttt{TorreTartaruga} e \texttt{InimigoLixo}, invocando comportamentos específicos em tempo de execução (como o acerto crítico da \texttt{TartarugaDePente} ou o movimento acelerado do \texttt{Microplastico}).
+    \item \textbf{Sobrecarga de Construtores:} Exemplificar os múltiplos construtores de \texttt{Entidade} (\texttt{Entidade()} e \texttt{Entidade(posX, posY)}) usados para instanciação antes e após o posicionamento no tabuleiro.
+\end{itemize}
+
+\subsection{Composição (\texttt{has-a}), Encapsulamento e Modularidade}
+\begin{itemize}
+    \item \textbf{Relações de Composição:} Destacar que \texttt{TorreTartaruga} possui uma \texttt{List<Projetil>}, \texttt{Projetil} referencia um alvo \texttt{InimigoLixo} e \texttt{Mapa} agrega as torres ativas e coordenadas do caminho.
+    \item \textbf{Encapsulamento e Baixo Acoplamento:} Demonstrar que atributos sensíveis (como saldo de conchas e vida da praia em \texttt{Jogador}) são \texttt{private}, sendo alterados exclusivamente por métodos validados na camada \texttt{service} (\texttt{LojaService}), mantendo a camada \texttt{view} desacoplada.
+\end{itemize}
+
+\subsection{Tratamento de Exceções}
+\begin{itemize}
+    \item \textbf{Exceções Customizadas de Domínio:} Explicar a criação de \texttt{PosicaoInvalidaException} e \texttt{RecursosInsuficientesException} (estendendo \texttt{Exception}), detalhando onde são lançadas (\texttt{throw} em \texttt{LojaService} e \texttt{Mapa}) e onde são capturadas (\texttt{try/catch} no \texttt{GameController}/\texttt{TelaJogoView}) para exibir mensagens claras ao jogador sem interromper o jogo.
+\end{itemize}
+
+\section{Visão Geral da Interface Gráfica (GUI)}
+\textit{\textbf{O que colocar:} Inserir capturas de tela (prints) reais das principais telas do sistema funcionando (Menu Principal, Tela de Jogo em andamento, Tela de Ranking e Tela de Vitória/Derrota), descrevendo o fluxo de navegação e interação do usuário.}
+
+\section{Relatório de Testes Automatizados (JUnit)}
+\textit{\textbf{O que colocar:} Descrever a suíte de testes unitários implementada, incluindo obrigatoriamente o relato textual completo de pelo menos 01 funcionalidade cobrindo os 4 pontos exigidos no item 3.6 do edital:}
+\begin{itemize}
+    \item \textbf{Partes testadas:} Classes e métodos avaliados;
+    \item \textbf{Cenários considerados:} Casos de sucesso e casos de erro/exceção;
+    \item \textbf{Resultados esperados:} O comportamento previsto para cada teste;
+    \item \textbf{Resultados obtidos:} Comprovação da aprovação dos testes no JUnit.
+\end{itemize}
+
+\section{Considerações Finais e Decisões de Projeto}
+\textit{\textbf{O que colocar:} Resumir os desafios técnicos superados (como sincronização do \texttt{GameLoop}, balanceamento das ondas e persistência em arquivo texto) e os resultados alcançados pela equipe.}
+
+\end{document}
