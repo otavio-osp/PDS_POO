@@ -23,7 +23,7 @@ Para manter o desenvolvimento estruturado e garantir a colaboração ativa no Gi
 | # | Integrante | Módulo | Atribuições Principais |
 | :---: | :--- | :--- | :--- |
 | **1** | **Lethícia Gonçalves da Silva** | Base do Combate | Classe abstrata `Entidade.java`, posições e lógica matemática de colisões no mapa (`CollisionService.java`) |
-| **2** | **Tomás Viana Resende** | Tartarugas / Torres | Classe abstrata `TorreTartaruga.java`, espécies (`TartarugaDeCouro`, `TartarugaDePente`, `TartarugaVerde`), `Projetil.java` e mecânica de upgrades |
+| **2** | **Tomás Viana Resende** | Tartarugas / Torres | Classe abstrata `TorreTartaruga.java`, espécies (`TartarugaDeCouro`, `TartarugaDePente`, `TartarugaVerde`), e mecânica de upgrades |
 | **3** | **Bruna Lima Ribeiro** | Lixos / Inimigos | Classe abstrata `InimigoLixo.java` e tipos de dejetos (`GarrafaPet`, `RedeFantasma`, `Microplastico`) com escalonamento por round |
 | **4** | **Helena Santos Perez** | Motor do Jogo & Exceções | Loop principal (`GameLoop.java`), controle de ondas (`WaveService.java`) e exceções customizadas (`PosicaoInvalidaException`, `RecursosInsuficientesException`) |
 | **5** | **Otávio Soares Pedroso** | Mapa & Jogador | Lógica do mapa/caminho (`Mapa.java`, `CelulaGrid.java`), gestão de moedas/vida (`Jogador.java`) e regras de compra (`LojaService.java`) |
