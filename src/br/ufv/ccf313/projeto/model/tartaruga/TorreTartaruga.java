@@ -50,6 +50,10 @@ public abstract class TorreTartaruga extends Entidade {
     }
 
     // setters para upgrades alterarem os atributos
+    public void setCusto(int custo) {
+        this.custo = custo;
+    }
+
     public void setDano(int dano) {
         this.dano = dano;
     }
