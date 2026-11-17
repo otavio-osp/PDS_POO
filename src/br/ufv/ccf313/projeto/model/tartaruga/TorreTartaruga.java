@@ -7,11 +7,14 @@ import br.ufv.ccf313.projeto.model.inimigo.InimigoLixo;
 // Cada tartaruga filha define seu proprio custo, alcance, dano e velocidade de ataque.
 public abstract class TorreTartaruga extends Entidade {
 
+    public static final int NIVEL_MAXIMO = 3;
+
     private String nome;
     private int custo;
     private int alcance; // quantidade de celulas que a tartaruga alcanca
     private int dano; // dano causado por ataque direto no inimigo
     private int velocidade; // quantos ataques da antes do inimigo andar uma celula
+    private int nivel; // nivel atual da tartaruga (1 = base, max = NIVEL_MAXIMO)
 
     public TorreTartaruga(int posX, int posY, String nome, int custo, int alcance, int dano, int velocidade) {
         super(posX, posY);
@@ -20,17 +23,23 @@ public abstract class TorreTartaruga extends Entidade {
         this.alcance = alcance;
         this.dano = dano;
         this.velocidade = velocidade;
+        this.nivel = 1;
     }
 
     // Cada tartaruga filha implementa como aplica o dano no inimigo
     public abstract void atacar(InimigoLixo alvo);
 
-    // Aqui entrarao os metodos de upgrade que alteram dano, alcance e velocidade
-    // Exemplo: public void aplicarUpgrade(int bonusDano, int bonusAlcance, int
-    // bonusVelocidade)
+    // Verifica se a tartaruga ainda pode ser evoluida
+    public boolean podeEvoluir() {
+        return this.nivel < NIVEL_MAXIMO;
+    }
 
     public String getNome() {
         return nome;
+    }
+
+    public int getCustoCompra() {
+        return custo;
     }
 
     public int getCusto() {
@@ -49,7 +58,15 @@ public abstract class TorreTartaruga extends Entidade {
         return velocidade;
     }
 
-    // setters para upgrades alterarem os atributos
+    public int getNivel() {
+        return nivel;
+    }
+
+    public int getNivelMaximo() {
+        return NIVEL_MAXIMO;
+    }
+
+    // setters
     public void setCusto(int custo) {
         this.custo = custo;
     }
@@ -66,9 +83,16 @@ public abstract class TorreTartaruga extends Entidade {
         this.velocidade = velocidade;
     }
 
+    // Incrementa o nivel da tartaruga. Chamado pelas subclasses dentro de evoluir().
+    protected void incrementarNivel() {
+        if (this.nivel < NIVEL_MAXIMO) {
+            this.nivel++;
+        }
+    }
+
     @Override
     public String toString() {
-        return nome + " [Custo: " + custo + " | Dano: " + dano + " | Alcance: " + alcance + " | Velocidade: "
-                + velocidade + "]";
+        return nome + " [Nv." + nivel + " | Custo: " + custo + " | Dano: " + dano + " | Alcance: " + alcance
+                + " | Velocidade: " + velocidade + "]";
     }
 }
