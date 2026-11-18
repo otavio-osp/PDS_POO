@@ -29,6 +29,15 @@ public abstract class TorreTartaruga extends Entidade {
     // Cada tartaruga filha implementa como aplica o dano no inimigo
     public abstract void atacar(InimigoLixo alvo);
 
+    // Contrato exigido pelo Planejamento Geral (secao 3.B):
+    // Aplica a melhoria de atributos conforme a especie e o nivel atual.
+    // Deve ser chamado pela Carol apos verificar jogador.gastarDinheiro(getCustoUpgrade()).
+    public abstract void evoluir();
+
+    // Contrato exigido pelo Planejamento Geral (secao 3.B):
+    // Retorna o custo em conchas para evoluir para o proximo nivel.
+    public abstract int getCustoUpgrade();
+
     // Verifica se a tartaruga ainda pode ser evoluida
     public boolean podeEvoluir() {
         return this.nivel < NIVEL_MAXIMO;
