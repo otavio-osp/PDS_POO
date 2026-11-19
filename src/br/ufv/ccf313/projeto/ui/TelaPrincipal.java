@@ -51,16 +51,38 @@ public class TelaPrincipal extends JFrame {
     // Sair      → encerrar o programa
     private void configurarBotoes() {
         botaoJogar.addActionListener(e -> {
-            // CAROL: abrir TelaJogo aqui
-            // TelaJogo telaJogo = new TelaJogo();
-            // telaJogo.setVisible(true);
-            // this.dispose();
+            String nomeJogador = javax.swing.JOptionPane.showInputDialog(
+                this,
+                "Digite seu nome para iniciar:",
+                "Novo Jogo",
+                javax.swing.JOptionPane.QUESTION_MESSAGE
+            );
+
+            // Só avança se o jogador digitou um nome válido e não clicou em Cancelar
+            if (nomeJogador != null && !nomeJogador.trim().isEmpty()) {
+                // TODO: Quando a classe Jogador estiver integrada aqui, instanciar com nomeJogador.trim()
+                
+                // Descomente as 3 linhas abaixo assim que o arquivo TelaJogo.java existir no pacote ui:
+                // TelaJogo telaJogo = new TelaJogo();
+                // telaJogo.setVisible(true);
+                // this.dispose();
+                
+                javax.swing.JOptionPane.showMessageDialog(this, "Iniciando partida para: " + nomeJogador.trim());
+            } else if (nomeJogador != null) {
+                javax.swing.JOptionPane.showMessageDialog(
+                    this, 
+                    "Por favor, digite um nome válido!", 
+                    "Aviso", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+                );
+            }
         });
 
         botaoHistorico.addActionListener(e -> {
-            // CAROL: abrir TelaHistorico aqui
+            // Descomente as 2 linhas abaixo assim que o arquivo TelaHistorico.java existir no pacote ui:
             // TelaHistorico telaHistorico = new TelaHistorico();
             // telaHistorico.setVisible(true);
+            javax.swing.JOptionPane.showMessageDialog(this, "Abrindo Histórico...");
         });
 
         botaoSair.addActionListener(e -> System.exit(0));
