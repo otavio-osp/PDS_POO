@@ -5,6 +5,8 @@ import br.ufv.ccf313.projeto.model.tartaruga.TorreTartaruga;
 import java.util.ArrayList;
 import java.util.List;
 
+// Representa o mapa completo do jogo como uma grade de celulas.
+// O caminho e uma lista ordenada de posicoes [linha, coluna] que os inimigos seguem do inicio ao fim.
 public class Mapa {
 
     public static final int LINHAS_PADRAO = 10;
@@ -13,7 +15,11 @@ public class Mapa {
     private Celula[][] grade;
     private int linhas;
     private int colunas;
+
+    // Sequencia ordenada de posicoes que os inimigos percorrem.
+    // Cada elemento e um array {linha, coluna}.
     private List<int[]> caminho;
+
     private List<int[]> slotsFixos;
 
     public Mapa() {
@@ -43,6 +49,7 @@ public class Mapa {
         inicializarGrade(TipoCelula.LIVRE);
     }
 
+    // Cria todas as celulas como LIVRE por padrao.
     private void inicializarGrade(TipoCelula tipoPadrao) {
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
@@ -99,6 +106,7 @@ public class Mapa {
         adicionarSlotTorre(8, 11);
     }
 
+    // Marca uma celula como parte do caminho dos inimigos e adiciona na lista ordenada.
     public void adicionarCelulaCaminho(int linha, int coluna) {
         if (linha < 0 || linha >= linhas || coluna < 0 || coluna >= colunas) {
             throw new IllegalArgumentException("Coordenada fora dos limites do mapa: (" + linha + ", " + coluna + ")");
@@ -138,6 +146,9 @@ public class Mapa {
         celula.colocarTartaruga(torre);
     }
 
+    // Tenta posicionar uma tartaruga em uma celula LIVRE.
+    // Retorna true se conseguiu, false se a celula nao estiver disponivel.
+    // Chamado por Carol (interface) apos verificar o dinheiro do jogador.
     public boolean colocarTartaruga(int linha, int coluna, TorreTartaruga torre) {
         Celula celula = getCelula(linha, coluna);
         if (celula == null) return false;
@@ -149,6 +160,7 @@ public class Mapa {
         return celula != null && celula.estaLivre();
     }
 
+    // Remove a tartaruga de uma celula OCUPADA.
     public TorreTartaruga removerTartaruga(int linha, int coluna) {
         Celula celula = getCelula(linha, coluna);
         if (celula != null && celula.estaOcupada()) {
@@ -157,11 +169,14 @@ public class Mapa {
         return null;
     }
 
+    // Retorna a celula na posicao informada, ou null se fora dos limites.
     public Celula getCelula(int linha, int coluna) {
         if (linha < 0 || linha >= linhas || coluna < 0 || coluna >= colunas) return null;
         return grade[linha][coluna];
     }
 
+    // Retorna todas as celulas que possuem uma tartaruga posicionada.
+    // Usado pela logica de combate (Leticia) para saber quais tartarugas estao ativas.
     public List<Celula> getCelulasComTartaruga() {
         List<Celula> resultado = new ArrayList<>();
         for (int i = 0; i < linhas; i++) {
@@ -186,6 +201,8 @@ public class Mapa {
         return resultado;
     }
 
+    // Retorna a sequencia de posicoes do caminho dos inimigos.
+    // Usado pela logica de combate (Leticia) e pelos inimigos (Bruna) para movimentacao.
     public List<int[]> getCaminho() {
         return caminho;
     }
@@ -199,6 +216,7 @@ public class Mapa {
         return caminho.get(0);
     }
 
+    // Retorna o indice da posicao final do caminho (onde o inimigo causa dano ao jogador).
     public int[] getPosicaoFinal() {
         if (caminho == null || caminho.isEmpty()) return null;
         return caminho.get(caminho.size() - 1);

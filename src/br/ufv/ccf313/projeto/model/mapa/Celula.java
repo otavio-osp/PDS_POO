@@ -2,12 +2,14 @@ package br.ufv.ccf313.projeto.model.mapa;
 
 import br.ufv.ccf313.projeto.model.tartaruga.TorreTartaruga;
 
+// Representa uma celula individual da grade do mapa.
+// Cada celula tem uma posicao (linha, coluna), um tipo e pode ou nao conter uma tartaruga.
 public class Celula {
 
     private int linha;
     private int coluna;
     private TipoCelula tipo;
-    private TorreTartaruga tartaruga;
+    private TorreTartaruga tartaruga; // null quando celula esta livre
 
     public Celula(int linha, int coluna, TipoCelula tipo) {
         this.linha = linha;
@@ -16,6 +18,9 @@ public class Celula {
         this.tartaruga = null;
     }
 
+    // Posiciona uma tartaruga nesta celula e marca como OCUPADA.
+    // Chamado por Mapa.colocarTartaruga() apos verificar disponibilidade e dinheiro do jogador.
+    // Retorna false se a celula nao estiver LIVRE.
     public boolean colocarTartaruga(TorreTartaruga torre) {
         if (this.tipo != TipoCelula.LIVRE) return false;
         this.tartaruga = torre;
@@ -23,6 +28,7 @@ public class Celula {
         return true;
     }
 
+    // Remove a tartaruga desta celula e volta o tipo para LIVRE.
     public TorreTartaruga removerTartaruga() {
         TorreTartaruga removida = this.tartaruga;
         this.tartaruga = null;
