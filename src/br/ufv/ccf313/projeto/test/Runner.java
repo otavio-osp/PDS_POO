@@ -11,7 +11,9 @@ public class Runner {
     public static void main(String[] args) {
         List<Class<?>> testClasses = List.of(
             GerenciadorRankingTest.class,
-            GerenciadorCombateTest.class
+            GerenciadorCombateTest.class,
+            MapaTest.class,
+            JogadorTest.class
         );
 
         int totalPassed = 0;
