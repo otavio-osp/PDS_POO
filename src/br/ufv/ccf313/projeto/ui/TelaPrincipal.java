@@ -1,90 +1,129 @@
 package br.ufv.ccf313.projeto.ui;
 
+import br.ufv.ccf313.projeto.model.Jogador;
+import br.ufv.ccf313.projeto.model.mapa.Mapa;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-// CAROL + MARINA: tela inicial do jogo (menu principal).
-// MARINA: responsavel pelo layout visual, fontes, cores e imagens de fundo.
-// CAROL: responsavel pela logica dos botoes (o que acontece ao clicar em cada um).
 public class TelaPrincipal extends JFrame {
 
+    private JTextField campoNome;
     private JButton botaoJogar;
     private JButton botaoHistorico;
     private JButton botaoSair;
+    private Image imagemFundo;
 
-    // CAROL + MARINA: montar o layout e registrar os listeners dos botoes.
     public TelaPrincipal() {
+        carregarImagemFundo();
         configurarJanela();
         criarComponentes();
         configurarBotoes();
     }
 
-    // MARINA: definir tamanho, titulo, cor de fundo e posicao da janela.
+    private void carregarImagemFundo() {
+        URL url = getClass().getResource("/br/ufv/ccf313/projeto/resource/imagens/menu_fundo_2.png");
+        if (url != null) {
+            imagemFundo = new ImageIcon(url).getImage();
+        } else {
+            System.err.println("Aviso: menu_fundo_2.jpg nao encontrada em resource/imagens/");
+        }
+    }
+
     private void configurarJanela() {
         setTitle("Tartarugas vs. Lixo Marinho");
         setSize(800, 600);
+        setResizable(false); // Mantem os botoes alinhados com a arte de fundo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
-    // MARINA: criar e posicionar os componentes visuais (botoes, titulo, imagens).
     private void criarComponentes() {
-        JPanel painel = new JPanel();
-        JLabel titulo = new JLabel("Tartarugas vs. Lixo Marinho");
+        JPanel painelFundo = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (imagemFundo != null) {
+                    g.drawImage(imagemFundo, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        painelFundo.setLayout(null);
 
-        botaoJogar = new JButton("Jogar");
-        botaoHistorico = new JButton("Historico");
-        botaoSair = new JButton("Sair");
+        // 1. Campo de texto posicionado na faixa verde-oliva abaixo de "INSIRA SEU NOME"
+        campoNome = new JTextField();
+        campoNome.setBounds(218, 224, 348, 28);
+        campoNome.setOpaque(false);
+        campoNome.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 8));
+        campoNome.setFont(new Font("Monospaced", Font.BOLD, 16));
+        campoNome.setForeground(Color.WHITE);
+        campoNome.setCaretColor(Color.WHITE);
 
-        painel.add(titulo);
-        painel.add(botaoJogar);
-        painel.add(botaoHistorico);
-        painel.add(botaoSair);
-        add(painel);
+        // 2. Botoes transparentes posicionados sobre as novas placas largas da imagem
+        botaoJogar = criarBotaoInvisivel(195, 312, 395, 65);
+        botaoHistorico = criarBotaoInvisivel(195, 398, 190, 62);
+        botaoSair = criarBotaoInvisivel(400, 398, 190, 62);
+
+        painelFundo.add(campoNome);
+        painelFundo.add(botaoJogar);
+        painelFundo.add(botaoHistorico);
+        painelFundo.add(botaoSair);
+
+        add(painelFundo);
     }
 
-    // CAROL: definir o que acontece ao clicar em cada botao.
-    // Jogar     → abrir TelaJogo e fechar esta tela
-    // Historico → abrir TelaHistorico
-    // Sair      → encerrar o programa
+    private JButton criarBotaoInvisivel(int x, int y, int largura, int altura) {
+        JButton botao = new JButton();
+        botao.setBounds(x, y, largura, altura);
+        botao.setOpaque(false);
+        botao.setContentAreaFilled(false);
+        botao.setBorderPainted(false);
+        botao.setFocusPainted(false);
+        botao.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return botao;
+    }
+
     private void configurarBotoes() {
+        // Jogar -> valida o nome digitado, cria Jogador e Mapa e abre a TelaJogo
         botaoJogar.addActionListener(e -> {
-            String nomeJogador = javax.swing.JOptionPane.showInputDialog(
-                this,
-                "Digite seu nome para iniciar:",
-                "Novo Jogo",
-                javax.swing.JOptionPane.QUESTION_MESSAGE
-            );
+            String nomeJogador = campoNome.getText().trim();
 
-            // Só avança se o jogador digitou um nome válido e não clicou em Cancelar
-            if (nomeJogador != null && !nomeJogador.trim().isEmpty()) {
-                // TODO: Quando a classe Jogador estiver integrada aqui, instanciar com nomeJogador.trim()
-                
-                // Descomente as 3 linhas abaixo assim que o arquivo TelaJogo.java existir no pacote ui:
-                // TelaJogo telaJogo = new TelaJogo();
-                // telaJogo.setVisible(true);
-                // this.dispose();
-                
-                javax.swing.JOptionPane.showMessageDialog(this, "Iniciando partida para: " + nomeJogador.trim());
-            } else if (nomeJogador != null) {
-                javax.swing.JOptionPane.showMessageDialog(
-                    this, 
-                    "Por favor, digite um nome válido!", 
-                    "Aviso", 
-                    javax.swing.JOptionPane.WARNING_MESSAGE
+            if (nomeJogador.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Insira seu nome na placa acima antes de jogar!",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE
                 );
+                campoNome.requestFocus();
+                return;
             }
+
+            Jogador jogador = new Jogador(nomeJogador);
+            Mapa mapa = new Mapa();
+
+            TelaJogo telaJogo = new TelaJogo(mapa, jogador);
+            telaJogo.setVisible(true);
+            this.dispose();
         });
 
+        // Ver ranking -> abre a TelaHistorico
         botaoHistorico.addActionListener(e -> {
-            // Descomente as 2 linhas abaixo assim que o arquivo TelaHistorico.java existir no pacote ui:
-            // TelaHistorico telaHistorico = new TelaHistorico();
-            // telaHistorico.setVisible(true);
-            javax.swing.JOptionPane.showMessageDialog(this, "Abrindo Histórico...");
+            TelaHistorico telaHistorico = new TelaHistorico();
+            telaHistorico.setVisible(true);
         });
 
+        // Sair -> encerra o programa
         botaoSair.addActionListener(e -> System.exit(0));
     }
 }
