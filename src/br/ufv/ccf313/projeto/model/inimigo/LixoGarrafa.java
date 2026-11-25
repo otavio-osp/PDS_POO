@@ -1,7 +1,6 @@
 package br.ufv.ccf313.projeto.model.inimigo;
 
-// Lixo de garrafa: rapido mas com pouca vida
-// BRUNA: ajustar os valores de vida, velocidade, recompensa e dano conforme balanceamento
+// lixo garrafa: rapido mas com pouca vida
 public class LixoGarrafa extends InimigoLixo {
 
     private static final int VIDA = 30;
