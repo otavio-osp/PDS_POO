@@ -12,6 +12,8 @@ public class Runner {
         List<Class<?>> testClasses = List.of(
             GerenciadorRankingTest.class,
             GerenciadorCombateTest.class,
+            CollisionServiceTest.class,
+            InimigoLixoTest.class,
             MapaTest.class,
             JogadorTest.class
         );

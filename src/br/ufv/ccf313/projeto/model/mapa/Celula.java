@@ -25,6 +25,9 @@ public class Celula {
         if (this.tipo != TipoCelula.LIVRE) return false;
         this.tartaruga = torre;
         this.tipo = TipoCelula.OCUPADA;
+        if (torre != null) {
+            torre.setPosicao(coluna, linha);
+        }
         return true;
     }
 
