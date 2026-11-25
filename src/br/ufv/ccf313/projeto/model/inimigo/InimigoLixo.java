@@ -32,21 +32,22 @@ public abstract class InimigoLixo extends Entidade{
     public void definirCaminho(List<int[]> caminho) {
         this.caminho = caminho;
         if (caminho != null && !caminho.isEmpty()) {
-            setPosX(caminho.get(0)[0]);
-            setPosY(caminho.get(0)[1]);
+            // No Mapa, o array e {linha, coluna}: indice [1] = coluna (X), indice [0] = linha (Y)
+            setPosX(caminho.get(0)[1]);
+            setPosY(caminho.get(0)[0]);
         }
     }
 
     @Override
-    public void atualizar(){
-        if (!isAtiva() || caminho == null || caminho.isEmpty()){
+    public void atualizar() {
+        if (!isAtiva() || caminho == null || caminho.isEmpty()) {
             return;
         }
 
         int passos = this.velocidade;
-        if (passos == 0){
+        if (passos == 0) {
             contadorTurnos++;
-            if (contadorTurnos<2){
+            if (contadorTurnos < 2) {
                 return;
             }
             contadorTurnos = 0;
@@ -55,13 +56,14 @@ public abstract class InimigoLixo extends Entidade{
 
         indiceCaminho += passos;
 
-        if (indiceCaminho >= caminho.size()){
-            indiceCaminho = caminho.size()-1;
+        if (indiceCaminho >= caminho.size()) {
+            indiceCaminho = caminho.size() - 1;
         }
 
         int[] novaPos = caminho.get(indiceCaminho);
-        setPosX(novaPos[0]);
-        setPosY(novaPos[1]);
+        // indice [1] = coluna (posX), indice [0] = linha (posY)
+        setPosX(novaPos[1]);
+        setPosY(novaPos[0]);
     }
 
     // o caminho do lixo acabou (deve ser desativado) 
