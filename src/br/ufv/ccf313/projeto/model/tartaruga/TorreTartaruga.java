@@ -4,17 +4,16 @@ import br.ufv.ccf313.projeto.model.Entidade;
 import br.ufv.ccf313.projeto.model.inimigo.InimigoLixo;
 
 // Classe pai de todas as tartarugas (torres).
-// Cada tartaruga filha define seu proprio custo, alcance, dano e velocidade de ataque.
 public abstract class TorreTartaruga extends Entidade {
 
     public static final int NIVEL_MAXIMO = 3;
 
     private String nome;
     private int custo;
-    private int alcance; // quantidade de celulas que a tartaruga alcanca
-    private int dano; // dano causado por ataque direto no inimigo
+    private int alcance;
+    private int dano;   
     private int velocidade; // quantos ataques da antes do inimigo andar uma celula
-    private int nivel; // nivel atual da tartaruga (1 = base, max = NIVEL_MAXIMO)
+    private int nivel; // nivel atual da tartaruga
 
     public TorreTartaruga(int posX, int posY, String nome, int custo, int alcance, int dano, int velocidade) {
         super(posX, posY);
@@ -29,12 +28,9 @@ public abstract class TorreTartaruga extends Entidade {
     // Cada tartaruga filha implementa como aplica o dano no inimigo
     public abstract void atacar(InimigoLixo alvo);
 
-    // Contrato exigido pelo Planejamento Geral (secao 3.B):
     // Aplica a melhoria de atributos conforme a especie e o nivel atual.
-    // Deve ser chamado pela Carol apos verificar jogador.gastarDinheiro(getCustoUpgrade()).
     public abstract void evoluir();
 
-    // Contrato exigido pelo Planejamento Geral (secao 3.B):
     // Retorna o custo em conchas para evoluir para o proximo nivel.
     public abstract int getCustoUpgrade();
 
