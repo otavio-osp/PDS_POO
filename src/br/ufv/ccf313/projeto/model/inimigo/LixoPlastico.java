@@ -1,7 +1,6 @@
 package br.ufv.ccf313.projeto.model.inimigo;
 
-// Lixo plastico: inimigo basico, stats equilibrados
-// BRUNA: ajustar os valores de vida, velocidade, recompensa e dano conforme balanceamento
+// lixo plástico: inimigo basico, velocidade normal e dano e vida também
 public class LixoPlastico extends InimigoLixo {
 
     private static final int VIDA = 50;
