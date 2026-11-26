@@ -32,18 +32,18 @@ public class TelaPrincipal extends JFrame {
     }
 
     private void carregarImagemFundo() {
-        URL url = getClass().getResource("/br/ufv/ccf313/projeto/resource/imagens/menu_fundo_2.png");
+        URL url = getClass().getResource("/br/ufv/ccf313/projeto/resource/imagens/menus/menu_fundo_2.png");
         if (url != null) {
             imagemFundo = new ImageIcon(url).getImage();
         } else {
-            System.err.println("Aviso: menu_fundo_2.jpg nao encontrada em resource/imagens/");
+            System.err.println("Aviso: menus/menu_fundo_2.png nao encontrada!");
         }
     }
 
     private void configurarJanela() {
         setTitle("Tartarugas vs. Lixo Marinho");
         setSize(800, 600);
-        setResizable(false); // Mantem os botoes alinhados com a arte de fundo
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
@@ -60,7 +60,6 @@ public class TelaPrincipal extends JFrame {
         };
         painelFundo.setLayout(null);
 
-        // 1. Campo de texto posicionado na faixa verde-oliva abaixo de "INSIRA SEU NOME"
         campoNome = new JTextField();
         campoNome.setBounds(218, 224, 348, 28);
         campoNome.setOpaque(false);
@@ -69,7 +68,6 @@ public class TelaPrincipal extends JFrame {
         campoNome.setForeground(Color.WHITE);
         campoNome.setCaretColor(Color.WHITE);
 
-        // 2. Botoes transparentes posicionados sobre as novas placas largas da imagem
         botaoJogar = criarBotaoInvisivel(195, 312, 395, 65);
         botaoHistorico = criarBotaoInvisivel(195, 398, 190, 62);
         botaoSair = criarBotaoInvisivel(400, 398, 190, 62);
@@ -94,7 +92,6 @@ public class TelaPrincipal extends JFrame {
     }
 
     private void configurarBotoes() {
-        // Jogar -> valida o nome digitado, cria Jogador e Mapa e abre a TelaJogo
         botaoJogar.addActionListener(e -> {
             String nomeJogador = campoNome.getText().trim();
 
@@ -117,13 +114,11 @@ public class TelaPrincipal extends JFrame {
             this.dispose();
         });
 
-        // Ver ranking -> abre a TelaHistorico
         botaoHistorico.addActionListener(e -> {
             TelaHistorico telaHistorico = new TelaHistorico();
             telaHistorico.setVisible(true);
         });
 
-        // Sair -> encerra o programa
         botaoSair.addActionListener(e -> System.exit(0));
     }
 }

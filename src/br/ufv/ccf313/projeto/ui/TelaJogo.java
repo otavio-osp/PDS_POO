@@ -12,9 +12,9 @@ import br.ufv.ccf313.projeto.model.tartaruga.TartarugaDePente;
 import br.ufv.ccf313.projeto.model.tartaruga.TartarugaVerde;
 import br.ufv.ccf313.projeto.model.tartaruga.TorreTartaruga;
 import br.ufv.ccf313.projeto.service.GerenciadorRanking;
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,17 +23,18 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,7 +44,7 @@ import javax.swing.Timer;
 public class TelaJogo extends JFrame {
 
     private static final int TAM_CELULA = 64;
-    private static final int DURACAO_TURNO_MS = 1000; // 1 segundo por passo na grade
+    private static final int DURACAO_TURNO_MS = 1000;
 
     private Mapa mapa;
     private Jogador jogador;
@@ -55,28 +56,41 @@ public class TelaJogo extends JFrame {
     // Estruturas da partida
     private Queue<InimigoLixo> filaSpawn;
     private List<InimigoLixo> inimigosAtivos;
-    private Map<InimigoLixo, int[]> posAnteriorInimigo; // Guarda {colAnterior, linAnterior} para deslizar suave
-    private Set<Celula> tartarugasAtacando;             // Guarda quais torres atacaram neste turno
+    private Map<InimigoLixo, Double> progressoCaminhoAnterior; // Indice exato no caminho antes do turno
+    private Map<InimigoLixo, Double> progressoCaminhoAtual;    // Indice exato no caminho ao fim do turno
+    private Map<InimigoLixo, Integer> contadorPassosRede;      // Controla meio-passo continuo do LixoRede
+    private Map<Celula, String> direcaoTartaruga;
+    private Map<Celula, Double> inclinacaoAtaque;
 
     private Timer timerLogica;
     private Timer timerAnimacao;
     private long inicioTurnoMs;
     private int contadorTicks = 0;
 
-    // Imagens
+    // Imagens do mapa e telas auxiliares
     private Image imgFundoMapa;
-    private Image imgTartaruga;
-    private Image imgPlastico;
-    private Image imgGarrafa;
-    private Image imgRede;
+    private Image imgAvisoConchas;
+    private Image imgConstruirDefesa;
+
+    // Sprites dos lixos (normal e vermelho)
+    private Image imgPlastico, imgPlasticoVermelha;
+    private Image imgGarrafa, imgGarrafaVermelha;
+    private Image imgRede, imgRedeVermelha;
+
+    // Sprites direcionais das tartarugas
+    private Map<String, Image> spritesTartarugas;
 
     public TelaJogo(Mapa mapa, Jogador jogador) {
         this.mapa = mapa;
         this.jogador = jogador;
         this.filaSpawn = new LinkedList<>();
         this.inimigosAtivos = new ArrayList<>();
-        this.posAnteriorInimigo = new HashMap<>();
-        this.tartarugasAtacando = new HashSet<>();
+        this.progressoCaminhoAnterior = new HashMap<>();
+        this.progressoCaminhoAtual = new HashMap<>();
+        this.contadorPassosRede = new HashMap<>();
+        this.direcaoTartaruga = new HashMap<>();
+        this.inclinacaoAtaque = new HashMap<>();
+        this.spritesTartarugas = new HashMap<>();
 
         carregarSprites();
         configurarJanela();
@@ -87,11 +101,34 @@ public class TelaJogo extends JFrame {
     }
 
     private void carregarSprites() {
-        imgFundoMapa = carregarImagem("/br/ufv/ccf313/projeto/resource/imagens/mapa_fundo.jpg");
-        imgTartaruga = carregarImagem("/br/ufv/ccf313/projeto/resource/imagens/north.png");
-        imgPlastico = carregarImagem("/br/ufv/ccf313/projeto/resource/imagens/lixo_sacola_plastica_24x24.png");
-        imgGarrafa = carregarImagem("/br/ufv/ccf313/projeto/resource/imagens/lixo_garrafa_plastica_24x24.png");
-        imgRede = carregarImagem("/br/ufv/ccf313/projeto/resource/imagens/lixo_rede_pesca_24x24.png");
+        String base = "/br/ufv/ccf313/projeto/resource/imagens/";
+
+        imgFundoMapa = carregarImagem(base + "mapa_fundo.jpg");
+        if (imgFundoMapa == null) {
+            imgFundoMapa = carregarImagem(base + "menus/mapa_fundo.jpg");
+        }
+
+        imgAvisoConchas = carregarImagem(base + "telas_auxiliares/tela_conchas_insuficientes.png");
+        imgConstruirDefesa = carregarImagem(base + "telas_auxiliares/tela_construir_defesa.png");
+
+        imgPlastico = carregarImagem(base + "lixos/lixo_sacola_plastica_24x24.png");
+        imgPlasticoVermelha = carregarImagem(base + "lixos/lixo_sacola_plastica_24x24_vermelha.png");
+
+        imgGarrafa = carregarImagem(base + "lixos/lixo_garrafa_plastica_24x24.png");
+        imgGarrafaVermelha = carregarImagem(base + "lixos/lixo_garrafa_plastica_24x24_vermelha.png");
+
+        imgRede = carregarImagem(base + "lixos/lixo_rede_pesca_24x24.png");
+        imgRedeVermelha = carregarImagem(base + "lixos/lixo_rede_pesca_24x24_vermelha.png");
+
+        String[] dirs = {"north", "south", "east", "west"};
+        for (String d : dirs) {
+            spritesTartarugas.put("TartarugaVerde_" + d,
+                carregarImagem(base + "tartarugas/tartaruga_verde/tartaruga_verde_" + d + ".png"));
+            spritesTartarugas.put("TartarugaDePente_" + d,
+                carregarImagem(base + "tartarugas/tartaruga_de_pente/tartaruga_de_pente_" + d + ".png"));
+            spritesTartarugas.put("TartarugaDeCouro_" + d,
+                carregarImagem(base + "tartarugas/tartaruga_de_couro/tartaruga_de_couro_" + d + ".png"));
+        }
     }
 
     private Image carregarImagem(String caminho) {
@@ -173,12 +210,10 @@ public class TelaJogo extends JFrame {
     private void iniciarLoops() {
         inicioTurnoMs = System.currentTimeMillis();
 
-        // Loop 1: Logica de turnos (move na matriz e aplica dano a cada 1 segundo)
         timerLogica = new Timer(DURACAO_TURNO_MS, e -> executarTurno());
         timerLogica.setInitialDelay(3000);
         timerLogica.start();
 
-        // Loop 2: Renderizacao suave a ~60 FPS (desliza os sprites entre as celulas)
         timerAnimacao = new Timer(16, e -> painelTabuleiro.repaint());
         timerAnimacao.start();
     }
@@ -191,27 +226,45 @@ public class TelaJogo extends JFrame {
     private void executarTurno() {
         contadorTicks++;
         inicioTurnoMs = System.currentTimeMillis();
-        tartarugasAtacando.clear();
+        inclinacaoAtaque.clear();
 
-        // 1. Guarda a posicao atual antes de mover (para animar o deslizamento)
+        // 1. Atualiza o indice anterior de cada lixo ativo antes de mover
         for (InimigoLixo lixo : inimigosAtivos) {
-            posAnteriorInimigo.put(lixo, new int[]{lixo.getPosX(), lixo.getPosY()});
+            double atual = progressoCaminhoAtual.getOrDefault(lixo, 0.0);
+            progressoCaminhoAnterior.put(lixo, atual);
         }
 
-        // 2. Solta um novo lixo a cada 2 turnos
-        if (contadorTicks % 2 == 1 && !filaSpawn.isEmpty()) {
+        // 2. Solta um novo lixo a cada 3 turnos (espacamento equilibrado)
+        if (contadorTicks % 3 == 1 && !filaSpawn.isEmpty()) {
             InimigoLixo novo = filaSpawn.poll();
-            // Comeca visualmente 1 celula antes da entrada para entrar deslizando
-            posAnteriorInimigo.put(novo, new int[]{novo.getPosX() - 1, novo.getPosY()});
+            progressoCaminhoAnterior.put(novo, -1.0); // Entra deslizando pela margem esquerda
+            progressoCaminhoAtual.put(novo, 0.0);
+            contadorPassosRede.put(novo, 0);
             inimigosAtivos.add(novo);
         }
 
-        // 3. Move os lixos ativos na grade
+        // 3. Move os lixos ativos na grade e calcula o progresso continuo no caminho
+        int maxIndice = mapa.getCaminho().size() - 1;
         for (InimigoLixo lixo : inimigosAtivos) {
+            double indAnt = progressoCaminhoAtual.getOrDefault(lixo, 0.0);
+
+            // Executa a logica oficial do InimigoLixo
             lixo.atualizar();
+
+            if (lixo.getVelocidade() == 0) {
+                // LixoRede: desliza 0.5 celula no 1o turno e 0.5 celula no 2o turno (nunca para!)
+                int ticksRede = contadorPassosRede.getOrDefault(lixo, 0) + 1;
+                contadorPassosRede.put(lixo, ticksRede);
+                double novoIndice = Math.min(maxIndice, ticksRede * 0.5);
+                progressoCaminhoAtual.put(lixo, novoIndice);
+            } else {
+                // LixoPlastico (1 celula/turno) e LixoGarrafa (2 celulas/turno)
+                double novoIndice = Math.min(maxIndice, indAnt + lixo.getVelocidade());
+                progressoCaminhoAtual.put(lixo, novoIndice);
+            }
         }
 
-        // 4. Tartarugas atacam diretamente os lixos no alcance
+        // 4. Tartarugas viram para o inimigo, inclinam e atacam
         for (Celula celula : mapa.getCelulasComTartaruga()) {
             int linTorre = celula.getLinha();
             int colTorre = celula.getColuna();
@@ -229,34 +282,45 @@ public class TelaJogo extends JFrame {
 
             for (InimigoLixo lixo : inimigosAtivos) {
                 if (!lixo.estaDestruido()) {
-                    double dist = Math.hypot(lixo.getPosX() - colTorre, lixo.getPosY() - linTorre);
+                    int dx = lixo.getPosX() - colTorre;
+                    int dy = lixo.getPosY() - linTorre;
+                    double dist = Math.hypot(dx, dy);
+
                     if (dist <= alcance) {
                         lixo.receberDano(dano);
-                        tartarugasAtacando.add(celula); // Marca para animar o pulso da tartaruga
+
+                        if (Math.abs(dx) >= Math.abs(dy)) {
+                            direcaoTartaruga.put(celula, (dx >= 0) ? "east" : "west");
+                        } else {
+                            direcaoTartaruga.put(celula, (dy >= 0) ? "south" : "north");
+                        }
+
+                        double anguloInclinacao = (dx >= 0) ? Math.toRadians(18) : Math.toRadians(-18);
+                        inclinacaoAtaque.put(celula, anguloInclinacao);
                         break;
                     }
                 }
             }
         }
 
-        // 5. Verifica lixos destruidos ou que chegaram ao fim
+        // 5. Verifica lixos destruidos ou que chegaram ao final
         Iterator<InimigoLixo> it = inimigosAtivos.iterator();
         while (it.hasNext()) {
             InimigoLixo lixo = it.next();
             if (lixo.estaDestruido()) {
                 jogador.registrarInimigoDestruido(lixo.getRecompensa());
-                posAnteriorInimigo.remove(lixo);
+                limparDadosInimigo(lixo);
                 it.remove();
             } else if (lixo.chegouAoFim()) {
                 jogador.receberDano(lixo.getDano());
-                posAnteriorInimigo.remove(lixo);
+                limparDadosInimigo(lixo);
                 it.remove();
             }
         }
 
         atualizarHUD();
 
-        // 6. Verifica fim de jogo
+        // 6. Fim de jogo
         if (jogador.getVida() <= 0) {
             pararLoops();
             mostrarGameOver();
@@ -266,6 +330,12 @@ public class TelaJogo extends JFrame {
         }
     }
 
+    private void limparDadosInimigo(InimigoLixo lixo) {
+        progressoCaminhoAnterior.remove(lixo);
+        progressoCaminhoAtual.remove(lixo);
+        contadorPassosRede.remove(lixo);
+    }
+
     public void atualizarHUD() {
         labelVida.setText("Vida: " + jogador.getVida() + "   |   ");
         labelDinheiro.setText("Conchas: " + jogador.getDinheiro() + "   |   ");
@@ -273,23 +343,83 @@ public class TelaJogo extends JFrame {
     }
 
     public void abrirModalCompra(Celula celula) {
-        String[] opcoes = {
-            "Tartaruga Verde (50 conchas)",
-            "Tartaruga de Pente (100 conchas)",
-            "Tartaruga de Couro (200 conchas)"
+        if (timerLogica != null) timerLogica.stop();
+
+        if (imgConstruirDefesa == null) {
+            String[] opcoes = {
+                "Tartaruga Verde (50 conchas)",
+                "Tartaruga de Pente (100 conchas)",
+                "Tartaruga de Couro (200 conchas)"
+            };
+            int escolha = JOptionPane.showOptionDialog(this, "Escolha a tartaruga:", "Construir Defesa",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+            processarCompra(celula, escolha);
+            inicioTurnoMs = System.currentTimeMillis();
+            if (timerLogica != null) timerLogica.start();
+            return;
+        }
+
+        JDialog dialogo = new JDialog(this, true);
+        dialogo.setUndecorated(true);
+        dialogo.setBackground(new Color(0, 0, 0, 0));
+
+        JPanel painel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imgConstruirDefesa, 0, 0, getWidth(), getHeight(), this);
+            }
         };
+        painel.setOpaque(false);
+        painel.setLayout(null);
 
-        int escolha = JOptionPane.showOptionDialog(
-            this,
-            "Escolha a tartaruga para plantar neste ponto:",
-            "Construir Defesa",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            opcoes,
-            opcoes[0]
-        );
+        JButton btnFechar = criarBotaoModal(560, 66, 32, 32);
+        btnFechar.addActionListener(e -> dialogo.dispose());
 
+        JButton btnVerde = criarBotaoModal(150, 134, 132, 168);
+        btnVerde.addActionListener(e -> {
+            dialogo.dispose();
+            processarCompra(celula, 0);
+        });
+
+        JButton btnPente = criarBotaoModal(294, 134, 132, 168);
+        btnPente.addActionListener(e -> {
+            dialogo.dispose();
+            processarCompra(celula, 1);
+        });
+
+        JButton btnCouro = criarBotaoModal(438, 134, 132, 168);
+        btnCouro.addActionListener(e -> {
+            dialogo.dispose();
+            processarCompra(celula, 2);
+        });
+
+        painel.add(btnFechar);
+        painel.add(btnVerde);
+        painel.add(btnPente);
+        painel.add(btnCouro);
+
+        dialogo.setContentPane(painel);
+        dialogo.setSize(720, 405);
+        dialogo.setLocationRelativeTo(this);
+        dialogo.setVisible(true);
+
+        inicioTurnoMs = System.currentTimeMillis();
+        if (timerLogica != null) timerLogica.start();
+    }
+
+    private JButton criarBotaoModal(int x, int y, int largura, int altura) {
+        JButton btn = new JButton();
+        btn.setBounds(x, y, largura, altura);
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return btn;
+    }
+
+    private void processarCompra(Celula celula, int escolha) {
         if (escolha == -1) return;
 
         int custo = (escolha == 0) ? 50 : (escolha == 1) ? 100 : 200;
@@ -310,11 +440,44 @@ public class TelaJogo extends JFrame {
         }
 
         mapa.colocarTartaruga(lin, col, torre);
+        direcaoTartaruga.put(celula, "south");
         atualizarHUD();
     }
 
     public void mostrarAvisoSemDinheiro() {
-        JOptionPane.showMessageDialog(this, "Conchas insuficientes!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        if (imgAvisoConchas == null) {
+            JOptionPane.showMessageDialog(this, "Conchas insuficientes!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        JDialog dialogo = new JDialog(this, true);
+        dialogo.setUndecorated(true);
+        dialogo.setBackground(new Color(0, 0, 0, 0));
+
+        JPanel painel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imgAvisoConchas, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        painel.setOpaque(false);
+        painel.setLayout(null);
+
+        JButton botaoOk = new JButton();
+        botaoOk.setBounds(160, 152, 180, 42);
+        botaoOk.setOpaque(false);
+        botaoOk.setContentAreaFilled(false);
+        botaoOk.setBorderPainted(false);
+        botaoOk.setFocusPainted(false);
+        botaoOk.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botaoOk.addActionListener(e -> dialogo.dispose());
+
+        painel.add(botaoOk);
+        dialogo.setContentPane(painel);
+        dialogo.setSize(520, 290);
+        dialogo.setLocationRelativeTo(this);
+        dialogo.setVisible(true);
     }
 
     public void mostrarGameOver() {
@@ -346,18 +509,46 @@ public class TelaJogo extends JFrame {
             setDoubleBuffered(true);
         }
 
+        // Calcula a posicao {colSuave, linSuave} seguindo cada celula da curva do caminho
+        private double[] calcularPosicaoNoCaminho(double indiceFracionario) {
+            List<int[]> caminho = mapa.getCaminho();
+            if (caminho.isEmpty()) return new double[]{0, 0};
+
+            if (indiceFracionario < 0) {
+                int[] inicio = caminho.get(0);
+                return new double[]{inicio[1] + indiceFracionario, inicio[0]};
+            }
+
+            int idx1 = (int) Math.floor(indiceFracionario);
+            if (idx1 >= caminho.size() - 1) {
+                int[] fim = caminho.get(caminho.size() - 1);
+                return new double[]{fim[1], fim[0]};
+            }
+
+            int idx2 = idx1 + 1;
+            double frac = indiceFracionario - idx1;
+            int[] p1 = caminho.get(idx1); // {linha, coluna}
+            int[] p2 = caminho.get(idx2); // {linha, coluna}
+
+            double col = p1[1] + (p2[1] - p1[1]) * frac;
+            double lin = p1[0] + (p2[0] - p1[0]) * frac;
+            return new double[]{col, lin};
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-            // Calcula quanto do turno atual ja passou (de 0.0 a 1.0)
-            double progresso = Math.min(1.0, (System.currentTimeMillis() - inicioTurnoMs) / (double) DURACAO_TURNO_MS);
+            double progressoTurno = Math.min(1.0, (System.currentTimeMillis() - inicioTurnoMs) / (double) DURACAO_TURNO_MS);
 
             // 1. Fundo do mapa
             if (imgFundoMapa != null) {
                 g2.drawImage(imgFundoMapa, 0, 0, getWidth(), getHeight(), this);
+            } else {
+                g2.setColor(new Color(107, 127, 78));
+                g2.fillRect(0, 0, getWidth(), getHeight());
             }
 
             // 2. Slots livres e tartarugas plantadas
@@ -375,64 +566,63 @@ public class TelaJogo extends JFrame {
                     }
 
                     if (c.estaOcupada()) {
-                        // Se atacou neste turno, da um pulso (cresce no inicio e volta ao normal)
-                        int bonusPulso = 0;
-                        if (tartarugasAtacando.contains(c) && progresso < 0.4) {
-                            bonusPulso = (int) (10 * Math.sin((progresso / 0.4) * Math.PI));
+                        String classeTorre = c.getTartaruga().getClass().getSimpleName();
+                        String dir = direcaoTartaruga.getOrDefault(c, "south");
+                        Image spriteTorre = spritesTartarugas.get(classeTorre + "_" + dir);
+
+                        double angulo = 0.0;
+                        if (inclinacaoAtaque.containsKey(c) && progressoTurno < 0.5) {
+                            double pulso = Math.sin((progressoTurno / 0.5) * Math.PI);
+                            angulo = inclinacaoAtaque.get(c) * pulso;
                         }
 
-                        int tamTorre = (TAM_CELULA - 16) + bonusPulso;
-                        int offTorre = (TAM_CELULA - tamTorre) / 2;
+                        AffineTransform original = g2.getTransform();
+                        int centroX = x + TAM_CELULA / 2;
+                        int centroY = y + TAM_CELULA / 2;
+                        g2.rotate(angulo, centroX, centroY);
 
-                        if (imgTartaruga != null) {
-                            g2.drawImage(imgTartaruga, x + offTorre, y + offTorre, tamTorre, tamTorre, this);
+                        if (spriteTorre != null) {
+                            g2.drawImage(spriteTorre, x + 6, y + 6, TAM_CELULA - 12, TAM_CELULA - 12, this);
                         } else {
                             g2.setColor(new Color(31, 61, 46));
-                            g2.fillOval(x + offTorre, y + offTorre, tamTorre, tamTorre);
+                            g2.fillOval(x + 12, y + 12, TAM_CELULA - 24, TAM_CELULA - 24);
                         }
 
-                        String sigla = c.getTartaruga().getClass().getSimpleName().replace("Tartaruga", "");
-                        g2.setColor(Color.WHITE);
-                        g2.setFont(new Font("SansSerif", Font.BOLD, 10));
-                        g2.drawString(sigla, x + 12, y + TAM_CELULA - 6);
+                        g2.setTransform(original);
                     }
                 }
             }
 
-            // 3. Inimigos deslizando suavemente entre a celula anterior e a atual
+            // 3. Inimigos deslizando continuamente ao longo da curva do caminho
             for (InimigoLixo lixo : inimigosAtivos) {
-                int[] ant = posAnteriorInimigo.getOrDefault(lixo, new int[]{lixo.getPosX(), lixo.getPosY()});
-                double colSuave = ant[0] + (lixo.getPosX() - ant[0]) * progresso;
-                double linSuave = ant[1] + (lixo.getPosY() - ant[1]) * progresso;
+                double indAnt = progressoCaminhoAnterior.getOrDefault(lixo, 0.0);
+                double indAtual = progressoCaminhoAtual.getOrDefault(lixo, 0.0);
+                double indSuave = indAnt + (indAtual - indAnt) * progressoTurno;
 
-                int x = (int) (colSuave * TAM_CELULA);
-                int y = (int) (linSuave * TAM_CELULA);
+                double[] posSuave = calcularPosicaoNoCaminho(indSuave);
+                int x = (int) (posSuave[0] * TAM_CELULA);
+                int y = (int) (posSuave[1] * TAM_CELULA);
 
                 double proporcaoVida = lixo.getVidaAtual() / (double) lixo.getVidaMaxima();
                 boolean tomouDano = lixo.getVidaAtual() < lixo.getVidaMaxima();
 
-                // Encolhe conforme perde vida (de 42px ate 22px)
-                int tamanho = (int) (22 + 20 * proporcaoVida);
+                int tamanho = (int) (24 + 20 * proporcaoVida);
                 int offset = (TAM_CELULA - tamanho) / 2;
 
-                Image sprite = imgPlastico;
-                if (lixo instanceof LixoGarrafa) sprite = imgGarrafa;
-                else if (lixo instanceof LixoRede) sprite = imgRede;
+                Image sprite;
+                if (lixo instanceof LixoGarrafa) {
+                    sprite = tomouDano ? imgGarrafaVermelha : imgGarrafa;
+                } else if (lixo instanceof LixoRede) {
+                    sprite = tomouDano ? imgRedeVermelha : imgRede;
+                } else {
+                    sprite = tomouDano ? imgPlasticoVermelha : imgPlastico;
+                }
 
                 if (sprite != null) {
                     g2.drawImage(sprite, x + offset, y + offset, tamanho, tamanho, this);
                 } else {
-                    g2.setColor(Color.RED);
+                    g2.setColor(tomouDano ? Color.RED : Color.ORANGE);
                     g2.fillRect(x + offset, y + offset, tamanho, tamanho);
-                }
-
-                // Brilho vermelho ao redor se ja tomou dano
-                if (tomouDano) {
-                    g2.setColor(new Color(230, 57, 70, 110));
-                    g2.fillOval(x + offset - 2, y + offset - 2, tamanho + 4, tamanho + 4);
-                    g2.setColor(new Color(230, 57, 70));
-                    g2.setStroke(new BasicStroke(2));
-                    g2.drawOval(x + offset - 2, y + offset - 2, tamanho + 4, tamanho + 4);
                 }
 
                 // Barra de vida
@@ -444,7 +634,6 @@ public class TelaJogo extends JFrame {
                 g2.fillRect(x + 10, y + 4, Math.max(0, vidaAtual), 6);
             }
 
-            // Sincroniza o buffer grafico com o sistema operacional para evitar engasgos
             Toolkit.getDefaultToolkit().sync();
         }
     }
