@@ -65,6 +65,7 @@ public class TelaJogo extends JFrame {
     private Timer timerLogica;
     private Timer timerAnimacao;
     private long inicioTurnoMs;
+    private long tempoPausadoMs = 0;
     private int contadorTicks = 0;
 
     // Imagens do mapa e telas auxiliares
@@ -182,7 +183,7 @@ public class TelaJogo extends JFrame {
                 if (celula.estaLivre()) {
                     abrirModalCompra(celula);
                 } else if (celula.estaOcupada()) {
-                    JOptionPane.showMessageDialog(TelaJogo.this, "Este ponto ja possui uma tartaruga!");
+                    abrirModalUpgrade(celula);
                 }
             }
         });
@@ -221,6 +222,22 @@ public class TelaJogo extends JFrame {
     private void pararLoops() {
         if (timerLogica != null) timerLogica.stop();
         if (timerAnimacao != null) timerAnimacao.stop();
+    }
+
+    private void pausarJogo() {
+        if (timerLogica != null && timerLogica.isRunning()) {
+            tempoPausadoMs = Math.min(DURACAO_TURNO_MS, System.currentTimeMillis() - inicioTurnoMs);
+            timerLogica.stop();
+        }
+    }
+
+    private void retomarJogo() {
+        if (timerLogica != null && !timerLogica.isRunning()) {
+            long tempoRestante = Math.max(0, DURACAO_TURNO_MS - tempoPausadoMs);
+            inicioTurnoMs = System.currentTimeMillis() - tempoPausadoMs;
+            timerLogica.setInitialDelay((int) tempoRestante);
+            timerLogica.start();
+        }
     }
 
     private void executarTurno() {
@@ -311,7 +328,7 @@ public class TelaJogo extends JFrame {
                 jogador.registrarInimigoDestruido(lixo.getRecompensa());
                 limparDadosInimigo(lixo);
                 it.remove();
-            } else if (lixo.chegouAoFim()) {
+            } else if (lixo.chegouAoFim() && progressoCaminhoAtual.getOrDefault(lixo, 0.0) >= maxIndice) {
                 jogador.receberDano(lixo.getDano());
                 limparDadosInimigo(lixo);
                 it.remove();
@@ -343,7 +360,11 @@ public class TelaJogo extends JFrame {
     }
 
     public void abrirModalCompra(Celula celula) {
-        if (timerLogica != null) timerLogica.stop();
+        pausarJogo();
+        if (timerLogica != null && timerLogica.isRunning()) {
+            tempoPausadoMs = System.currentTimeMillis() - inicioTurnoMs;
+            timerLogica.stop();
+        }
 
         if (imgConstruirDefesa == null) {
             String[] opcoes = {
@@ -354,8 +375,7 @@ public class TelaJogo extends JFrame {
             int escolha = JOptionPane.showOptionDialog(this, "Escolha a tartaruga:", "Construir Defesa",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
             processarCompra(celula, escolha);
-            inicioTurnoMs = System.currentTimeMillis();
-            if (timerLogica != null) timerLogica.start();
+            retomarJogo();
             return;
         }
 
@@ -404,8 +424,43 @@ public class TelaJogo extends JFrame {
         dialogo.setLocationRelativeTo(this);
         dialogo.setVisible(true);
 
-        inicioTurnoMs = System.currentTimeMillis();
-        if (timerLogica != null) timerLogica.start();
+        retomarJogo();
+    }
+
+    public void abrirModalUpgrade(Celula celula) {
+        pausarJogo();
+        if (timerLogica != null && timerLogica.isRunning()) {
+            tempoPausadoMs = System.currentTimeMillis() - inicioTurnoMs;
+            timerLogica.stop();
+        }
+
+        int custoUpgrade = 75;
+        String[] opcoes = {
+            "Evoluir Tartaruga (" + custoUpgrade + " conchas)",
+            "Cancelar"
+        };
+
+        int escolha = JOptionPane.showOptionDialog(
+            this,
+            "Deseja melhorar esta tartaruga?",
+            "Upgrade de Torre",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opcoes,
+            opcoes[0]
+        );
+
+        if (escolha == 0) {
+            if (jogador.gastarDinheiro(custoUpgrade)) {
+                // TODO (Tomás): chamar o método de upgrade da torre, ex: celula.getTartaruga().evoluir();
+                atualizarHUD();
+            } else {
+                mostrarAvisoSemDinheiro();
+            }
+        }
+
+        retomarJogo();
     }
 
     private JButton criarBotaoModal(int x, int y, int largura, int altura) {
@@ -541,7 +596,13 @@ public class TelaJogo extends JFrame {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-            double progressoTurno = Math.min(1.0, (System.currentTimeMillis() - inicioTurnoMs) / (double) DURACAO_TURNO_MS);
+            //congelar a animação suavemente durante os modais:
+            double progressoTurno;
+            if (timerLogica != null && !timerLogica.isRunning()) {
+                progressoTurno = Math.min(1.0, tempoPausadoMs / (double) DURACAO_TURNO_MS);
+            } else {
+                progressoTurno = Math.min(1.0, (System.currentTimeMillis() - inicioTurnoMs) / (double) DURACAO_TURNO_MS);
+            }     
 
             // 1. Fundo do mapa
             if (imgFundoMapa != null) {
