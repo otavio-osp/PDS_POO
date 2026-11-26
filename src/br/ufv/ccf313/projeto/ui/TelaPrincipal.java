@@ -79,12 +79,16 @@ public class TelaPrincipal extends JFrame {
         });
 
         botaoHistorico.addActionListener(e -> {
-            // Descomente as 2 linhas abaixo assim que o arquivo TelaHistorico.java existir no pacote ui:
-            // TelaHistorico telaHistorico = new TelaHistorico();
-            // telaHistorico.setVisible(true);
-            javax.swing.JOptionPane.showMessageDialog(this, "Abrindo Histórico...");
+            TelaHistorico telaHistorico = new TelaHistorico();
+            telaHistorico.setVisible(true);
+            //javax.swing.JOptionPane.showMessageDialog(this, "Abrindo Histórico...");
         });
 
         botaoSair.addActionListener(e -> System.exit(0));
+    }
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            new TelaPrincipal().setVisible(true);
+        });
     }
 }

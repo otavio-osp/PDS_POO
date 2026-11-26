@@ -77,8 +77,23 @@ public class TelaHistorico extends JFrame {
     private void configurarBotoes() {
         // Limpar Historico → apaga o arquivo e recarrega a tela vazia
         botaoLimpar.addActionListener(e -> {
-            ranking.limparHistorico();
-            carregarRanking();
+            int confirmacao = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza que deseja apagar todo o histórico de partidas?",
+                "Confirmar Exclusão",
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            if (confirmacao == javax.swing.JOptionPane.YES_OPTION) {
+                ranking.limparHistorico();
+                carregarRanking();
+                javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Histórico limpo com sucesso!",
+                    "Aviso",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE
+                );
+            }
         });
 
         // Voltar → fecha esta tela
