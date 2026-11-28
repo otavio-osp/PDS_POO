@@ -72,6 +72,8 @@ public class TelaJogo extends JFrame {
     private Image imgFundoMapa;
     private Image imgAvisoConchas;
     private Image imgConstruirDefesa;
+    private Image imgVitoria;
+    private Image imgDerrota;
 
     // Sprites dos lixos (normal e vermelho)
     private Image imgPlastico, imgPlasticoVermelha;
@@ -111,6 +113,8 @@ public class TelaJogo extends JFrame {
 
         imgAvisoConchas = carregarImagem(base + "telas_auxiliares/tela_conchas_insuficientes.png");
         imgConstruirDefesa = carregarImagem(base + "telas_auxiliares/tela_construir_defesa.png");
+        imgVitoria = carregarImagem(base + "telas_auxiliares/tela_vitoria.png");
+        imgDerrota = carregarImagem(base + "telas_auxiliares/tela_derrota.png");
 
         imgPlastico = carregarImagem(base + "lixos/lixo_sacola_plastica_24x24.png");
         imgPlasticoVermelha = carregarImagem(base + "lixos/lixo_sacola_plastica_24x24_vermelha.png");
@@ -538,19 +542,66 @@ public class TelaJogo extends JFrame {
     public void mostrarGameOver() {
         GerenciadorRanking ranking = new GerenciadorRanking();
         ranking.salvarPartida(jogador.getNome(), jogador.getScore(), jogador.getWaveAtual());
-        JOptionPane.showMessageDialog(this,
-            "Game Over!\nScore: " + jogador.getScore() + "\nWave: " + jogador.getWaveAtual(),
-            "Fim de Jogo", JOptionPane.INFORMATION_MESSAGE);
-        voltarAoMenu();
+        
+        if (imgDerrota == null) {
+            JOptionPane.showMessageDialog(this,
+                "Game Over!\nScore: " + jogador.getScore() + "\nWave: " + jogador.getWaveAtual(),
+                "Fim de Jogo", JOptionPane.INFORMATION_MESSAGE);
+            voltarAoMenu();
+            return;
+        }
+
+        mostrarModalFimDeJogo(imgDerrota);
     }
 
     public void mostrarVitoria() {
         GerenciadorRanking ranking = new GerenciadorRanking();
         ranking.salvarPartida(jogador.getNome(), jogador.getScore(), jogador.getWaveAtual());
-        JOptionPane.showMessageDialog(this,
-            "Voce venceu a simulacao!\nScore: " + jogador.getScore() + "\nWave: " + jogador.getWaveAtual(),
-            "Vitoria!", JOptionPane.INFORMATION_MESSAGE);
-        voltarAoMenu();
+        
+        if (imgVitoria == null) {
+            JOptionPane.showMessageDialog(this,
+                "Voce venceu a simulacao!\nScore: " + jogador.getScore() + "\nWave: " + jogador.getWaveAtual(),
+                "Vitoria!", JOptionPane.INFORMATION_MESSAGE);
+            voltarAoMenu();
+            return;
+        }
+
+        mostrarModalFimDeJogo(imgVitoria);
+    }
+
+    private void mostrarModalFimDeJogo(Image imagem) {
+        JDialog dialogo = new JDialog(this, true);
+        dialogo.setUndecorated(true);
+        dialogo.setBackground(new Color(0, 0, 0, 0));
+
+        JPanel painel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagem, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        painel.setOpaque(false);
+        painel.setLayout(null);
+
+        // Botao para fechar e voltar ao menu (ao clicar fecha a tela)
+        JButton btnVoltar = new JButton();
+        btnVoltar.setBounds(0, 0, 688, 384);
+        btnVoltar.setOpaque(false);
+        btnVoltar.setContentAreaFilled(false);
+        btnVoltar.setBorderPainted(false);
+        btnVoltar.setFocusPainted(false);
+        btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnVoltar.addActionListener(e -> {
+            dialogo.dispose();
+            voltarAoMenu();
+        });
+
+        painel.add(btnVoltar);
+        dialogo.setContentPane(painel);
+        dialogo.setSize(688, 384);
+        dialogo.setLocationRelativeTo(this);
+        dialogo.setVisible(true);
     }
 
     private void voltarAoMenu() {
